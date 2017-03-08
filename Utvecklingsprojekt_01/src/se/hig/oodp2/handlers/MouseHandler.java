@@ -31,6 +31,7 @@ public class MouseHandler implements MouseListener, MouseMotionListener
 
 		private int fromX;
 		private int fromY;
+		double meta[];
 
 		public MouseHandler(DrawPanel pan)
 			{
@@ -46,21 +47,22 @@ public class MouseHandler implements MouseListener, MouseMotionListener
 		public void mouseDragged(MouseEvent e)
 			{
 
-//				if (!panel.getSelList().isEmpty())
-//					{
-//
-//						for (Shape s : panel.getSelList()){
-//							double meta[] = s.getShapeMeta();
-//							s.move((int)(e.getX() - (meta[0])),(int)( e.getY() - (meta[1])));
-//						}
-//					}
-
-				if (selected != null)
+				if (!panel.getSelList().isEmpty())
 					{
 
-						selected.move(e.getX() - (x1), e.getY() - (y1));
-
+						for (Shape s : panel.getSelList())
+							{
+								double meta[] = s.getShapeMeta();
+								s.move((int) (e.getX() - (meta[0])), (int) (e.getY() - (meta[1])));
+							}
 					}
+
+				// if (selected != null)
+				// {
+				//
+				// selected.move(e.getX() - (x1), e.getY() - (y1));
+				//
+				// }
 				if (s != null)
 					panel.drawDyn(s, e.getX(), e.getY());
 
@@ -78,17 +80,21 @@ public class MouseHandler implements MouseListener, MouseMotionListener
 		@Override
 		public void mouseClicked(MouseEvent e)
 			{
-				
+
 				selected = panel.isShapeSelected(e.getX(), e.getY());
-				if(selected == null)
+				if (selected == null)
 					panel.clearSelList();
-				
-				if (panel.getSelList().isEmpty() || e.isShiftDown())
-					panel.selectedShape(selected);
+
+				if (selected != null && panel.getSelList().isEmpty() || e.isShiftDown())
+					{
+						selected.setX(e.getX() - selected.getX());
+						selected.setY(e.getY() - selected.getY());
+						panel.selectedShape(selected);
+					}
 				else
 					{
 						panel.clearSelList();
-						panel.selectedShape(selected);
+						// panel.selectedShape(selected);
 					}
 
 				// if (selected != null)
@@ -125,30 +131,30 @@ public class MouseHandler implements MouseListener, MouseMotionListener
 
 				if (panel.getSelList().isEmpty())
 					selected = panel.isShapeSelected(e.getX(), e.getY());
-				
 
-//				else
-//					{
-//						for (Shape s : panel.getSelList())
-//							{
-//								fromX = s.getX();
-//								fromY = s.getY();
-//								System.out.println("found");
-//								x1 = e.getX() - s.getX();
-//								y1 = e.getY() - s.getY();
-//							}
-//					}
+				else
+					{
+						for (Shape s : panel.getSelList())
+							{
+								fromX = s.getX();
+								fromY = s.getY();
+								System.out.println("found");
+								s.setX(e.getX() - s.getX());
+								s.setY(e.getY() - s.getY());
+								meta = s.getShapeMeta();
+							}
+					}
 
-				 selected = panel.isShapeSelected(e.getX(), e.getY());
-				 if (selected != null)
-				 {
-				 fromX = selected.getX();
-				 fromY = selected.getY();
-				 System.out.println("found");
-				 x1 = e.getX() - selected.getX();
-				 y1 = e.getY() - selected.getY();
-				
-				 }
+				// selected = panel.isShapeSelected(e.getX(), e.getY());
+				// if (selected != null)
+				// {
+				// fromX = selected.getX();
+				// fromY = selected.getY();
+				// System.out.println("found");
+				// x1 = e.getX() - selected.getX();
+				// y1 = e.getY() - selected.getY();
+				//
+				// }
 
 				System.out.println("Pressed");
 				x = e.getX();

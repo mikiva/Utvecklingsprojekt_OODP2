@@ -211,8 +211,8 @@ public class DrawPanel extends JPanel
 								if (getHeight() > 0)
 									movY = (movY + 1) % getHeight();
 
-								// for(Shape c : list)
-								// c.move();
+//								 for(Shape c : list)
+//								 c.move();
 
 								repaint();
 							}
