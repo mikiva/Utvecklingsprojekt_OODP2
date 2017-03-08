@@ -182,7 +182,6 @@ public class DrawPanel extends JPanel
 			{
 				list.remove(s);
 			}
-
 		public void setCommandStack(CommandStack commands)
 			{
 				this.commands = commands;

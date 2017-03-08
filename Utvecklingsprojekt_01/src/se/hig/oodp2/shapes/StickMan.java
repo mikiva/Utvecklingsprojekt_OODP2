@@ -185,4 +185,18 @@ public class StickMan implements Shape
 				
 			}
 
+		@Override
+		public void setMoveCoor(double x, double y)
+			{
+				// TODO Auto-generated method stub
+				
+			}
+
+		@Override
+		public double[] getMoveCoor()
+			{
+				// TODO Auto-generated method stub
+				return null;
+			}
+
 	}

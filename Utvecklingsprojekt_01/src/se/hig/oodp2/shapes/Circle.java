@@ -16,6 +16,7 @@ public class Circle implements Shape
 		private int xmax;
 		private int ymax;
 		private Color color;
+		private double[] moveCoor = new double[2];
 
 		public Circle(double x, double y, double w, double h)
 			{
@@ -149,6 +150,21 @@ public class Circle implements Shape
 			{
 				// TODO Auto-generated method stub
 				return null;
+			}
+
+		@Override
+		public void setMoveCoor(double x, double y)
+			{
+				moveCoor[0] = x;
+				moveCoor[1] = y;
+				
+			}
+
+		@Override
+		public double[] getMoveCoor()
+			{
+				// TODO Auto-generated method stub
+				return moveCoor;
 			}
 
 	}

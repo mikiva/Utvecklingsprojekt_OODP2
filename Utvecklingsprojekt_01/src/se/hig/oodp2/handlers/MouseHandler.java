@@ -53,22 +53,26 @@ public class MouseHandler implements MouseListener, MouseMotionListener
 		public void mouseDragged(MouseEvent e)
 			{
 
-				if (!panel.getSelList().isEmpty())
-					{
-
-						for (Shape s : panel.getSelList())
-							{
-								double meta[] = s.getShapeMeta();
-								s.move((int) (e.getX() - (meta[0])), (int) (e.getY() - (meta[1])));
-							}
-					}
-
-				// if (selected != null)
+				// if (!panel.getSelList().isEmpty())
 				// {
 				//
-				// selected.move(e.getX() - (x1), e.getY() - (y1));
-				//
+				// for (Shape s : panel.getSelList())
+				// {
+				// double meta[] = s.getShapeMeta();
+				// s.move((int) (e.getX() - (meta[0])), (int) (e.getY() -
+				// (meta[1])));
 				// }
+				// }
+
+				if (selectedShape != null)
+					{
+						
+
+						//selectedShape.move((int) e.getX() - (x1), (int) e.getY() - (y1));
+
+						selectedShape.setMoveCoor(e.getX(), e.getY());
+						selectedShape.move((int) e.getX(), (int) e.getY());
+					}
 				if (s != null)
 					panel.drawDyn(s, e.getX(), e.getY());
 
@@ -89,23 +93,30 @@ public class MouseHandler implements MouseListener, MouseMotionListener
 
 				selected = panel.isShapeSelected(e.getX(), e.getY());
 
-				selectShape(selected);
-
-				SelectedShapes selShapes = new SelectedShapes();
 				if (selected == null)
-					panel.clearSelList();
+					selectState.deSelect();
 
-				if (selected != null && panel.getSelList().isEmpty() || e.isShiftDown())
-					{
-						selected.setX(e.getX() - selected.getX());
-						selected.setY(e.getY() - selected.getY());
-						panel.selectedShape(selected);
-					}
 				else
 					{
-						panel.clearSelList();
-						// panel.selectedShape(selected);
+						selectShape(selected);
+						
+						selectedShape.setX(selected.getX());
+						selectedShape.setY(selected.getY());
+						
+						System.out.println(selectedShape.toString() + "Selected");
 					}
+				// if (selected != null && panel.getSelList().isEmpty() ||
+				// e.isShiftDown())
+				// {
+				// selected.setX(e.getX() - selected.getX());
+				// selected.setY(e.getY() - selected.getY());
+				// panel.selectedShape(selected);
+				// }
+				// else
+				// {
+				// panel.clearSelList();
+				// // panel.selectedShape(selected);
+				// }
 
 				// if (selected != null)
 				// {
@@ -115,10 +126,6 @@ public class MouseHandler implements MouseListener, MouseMotionListener
 				//
 				// }
 
-				for (Shape s : panel.getSelList())
-					System.out.println(s.toString());
-
-				System.out.println("Clicked.");
 			}
 
 		@Override
@@ -139,41 +146,55 @@ public class MouseHandler implements MouseListener, MouseMotionListener
 		public void mousePressed(MouseEvent e)
 			{
 
-				if (panel.getSelList().isEmpty())
-					selected = panel.isShapeSelected(e.getX(), e.getY());
-
-				else
+				//selected = panel.isShapeSelected(e.getX(), e.getY());
+				if (selected != null)
 					{
-						for (Shape s : panel.getSelList())
-							{
-								fromX = s.getX();
-								fromY = s.getY();
-								System.out.println("found");
-								s.setX(e.getX() - s.getX());
-								s.setY(e.getY() - s.getY());
-								meta = s.getShapeMeta();
-							}
+						fromX = selected.getX();
+						fromY = selected.getY();
+
+						selectedShape.setMoveCoor(e.getX(), e.getY());
+//						x1 = e.getX() - selected.getX();
+//						y1 = e.getY() - selected.getY();
 					}
 
+				// if (panel.getSelList().isEmpty())
 				// selected = panel.isShapeSelected(e.getX(), e.getY());
-				// if (selected != null)
-				// {
-				// fromX = selected.getX();
-				// fromY = selected.getY();
-				// System.out.println("found");
-				// x1 = e.getX() - selected.getX();
-				// y1 = e.getY() - selected.getY();
 				//
+				// else
+				// {
+				// for (Shape s : panel.getSelList())
+				// {
+				// fromX = s.getX();
+				// fromY = s.getY();
+				// System.out.println("found");
+				// s.setX(e.getX() - s.getX());
+				// s.setY(e.getY() - s.getY());
+				// meta = s.getShapeMeta();
+				// }
 				// }
 
-				System.out.println("Pressed");
-				x = e.getX();
-				y = e.getY();
-				mX = e.getX();
-				mY = e.getY();
-
-				if (selected == null)
+				// selected = panel.isShapeSelected(e.getX(), e.getY());
+				if (selectedShape != null)
 					{
+						fromX = selectedShape.getX();
+						fromY = selectedShape.getY();
+
+						
+						x1 = e.getX() - selectedShape.getX();
+						y1 = e.getY() - selectedShape.getY();
+
+					}
+
+
+
+				if (selectedShape == null)
+					{
+						
+						x = e.getX();
+						y = e.getY();
+						mX = e.getX();
+						mY = e.getY();
+						
 						s = panel.createShape(x, y);
 
 						commands.doCommand(new Create(s, panel));
@@ -218,7 +239,7 @@ public class MouseHandler implements MouseListener, MouseMotionListener
 				// }
 
 				// System.out.println(length);
-				selected = null;
+
 				s = null;
 				panel.repaint();
 
@@ -243,8 +264,14 @@ public class MouseHandler implements MouseListener, MouseMotionListener
 				selectState.select(s);
 				selectedShape = selectState.getSelected();
 			}
-		
-		public void setState(SelectedState state){
-			selectState = state;
-		}
+
+		public void setState(SelectedState state)
+			{
+				selectState = state;
+			}
+
+		public void setNullObject()
+			{
+				selectedShape = null;
+			}
 	}

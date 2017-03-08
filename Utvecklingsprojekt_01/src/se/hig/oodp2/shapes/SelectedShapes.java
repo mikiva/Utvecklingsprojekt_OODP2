@@ -2,19 +2,26 @@ package se.hig.oodp2.shapes;
 
 import java.awt.Color;
 import java.awt.Graphics;
+import java.util.List;
 
 public class SelectedShapes implements Shape
 	{
 		private ShapeList<Shape> compList;
+		private double x = -1;
+		private double y = -1;
+		private double mX;
+		private double mY;
 
 		public SelectedShapes()
 			{
 				compList = new ShapeList<>();
+
 			}
 
 		@Override
 		public void draw(Graphics g)
 			{
+				
 				for (Shape s : compList)
 					s.draw(g);
 
@@ -32,6 +39,11 @@ public class SelectedShapes implements Shape
 				for (Shape s : compList)
 					{
 
+						double[] mCoor = s.getMoveCoor();
+						int dx = (int)(x - (mCoor[0]-s.getX()));
+						int dy = (int)(y - (mCoor[1]-s.getY()));
+
+						s.move((int)(x+(mCoor[0])), (int)(y+(mCoor[1])));
 					}
 
 			}
@@ -81,15 +93,13 @@ public class SelectedShapes implements Shape
 		@Override
 		public int getX()
 			{
-				// TODO Auto-generated method stub
-				return 0;
+				return (int) x;
 			}
 
 		@Override
 		public int getY()
 			{
-				// TODO Auto-generated method stub
-				return 0;
+				return (int) y;
 			}
 
 		@Override
@@ -102,21 +112,50 @@ public class SelectedShapes implements Shape
 		@Override
 		public void setX(double x)
 			{
-				// TODO Auto-generated method stub
-
+				if (this.x < 0 || this.x > x)
+					this.x = x;
 			}
 
 		@Override
 		public void setY(double y)
 			{
-				// TODO Auto-generated method stub
+				if (this.y < 0 || this.y > y)
+					this.y = y;
 
+			}
+
+		public void setMoveCoor(double x, double y)
+			{
+				for (Shape s : compList)
+					{
+						s.setMoveCoor(x, y);
+					}
 			}
 
 		public void addShape(Shape s)
 			{
+				setX(s.getX());
+				setY(s.getY());
 				compList.add(s);
 
+			}
+
+		public String toString()
+			{
+
+				StringBuilder str = new StringBuilder();
+				for (Shape s : compList)
+					{
+						str.append(s.toString() + " \n");
+					}
+				return str.toString();
+			}
+
+		@Override
+		public double[] getMoveCoor()
+			{
+				// TODO Auto-generated method stub
+				return null;
 			}
 
 	}

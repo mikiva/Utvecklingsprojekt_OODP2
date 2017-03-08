@@ -10,6 +10,7 @@ public class NoSelected implements SelectedState
 		public NoSelected(MouseHandler hand)
 			{
 				this.handler = hand;
+				System.out.println("No selectedState");
 			}
 
 		@Override

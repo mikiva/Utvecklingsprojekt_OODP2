@@ -14,7 +14,8 @@ public class SelectedShapesState implements SelectedState
 			{
 				selShape = new SelectedShapes();
 				this.handler = handler;
-				selShape.addShape(s);
+				select(s);
+				System.out.println("Selected State");
 			}
 
 		@Override
@@ -34,8 +35,10 @@ public class SelectedShapesState implements SelectedState
 		@Override
 		public void deSelect()
 			{
+				handler.setNullObject();
 				handler.setState(new NoSelected(handler));
 				
 			}
+
 
 	}

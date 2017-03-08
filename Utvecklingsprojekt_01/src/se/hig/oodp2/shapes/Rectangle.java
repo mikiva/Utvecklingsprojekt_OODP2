@@ -183,5 +183,17 @@ public class Rectangle implements Shape
 				// TODO Auto-generated method stub
 				return null;
 			}
+		@Override
+		public void setMoveCoor(double x, double y)
+			{
+				// TODO Auto-generated method stub
+				
+			}
+		@Override
+		public double[] getMoveCoor()
+			{
+				// TODO Auto-generated method stub
+				return null;
+			}
 
 	}

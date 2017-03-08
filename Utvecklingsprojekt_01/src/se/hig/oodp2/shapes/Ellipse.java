@@ -16,6 +16,7 @@ public class Ellipse implements Shape
 		private int xmax;
 		private int ymax;
 		private Color color;
+		private double[] moveCoor = new double[2];
 
 		public Ellipse(double x, double y)
 			{
@@ -140,6 +141,20 @@ public class Ellipse implements Shape
 			{
 				dy = y;
 
+			}
+
+		@Override
+		public void setMoveCoor(double x, double y)
+			{
+				moveCoor[0] = (x - this.x);
+				moveCoor[1] = (y - this.y);;
+			}
+
+		@Override
+		public double[] getMoveCoor()
+			{
+				
+				return moveCoor;
 			}
 
 	}

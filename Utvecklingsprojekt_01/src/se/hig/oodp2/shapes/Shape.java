@@ -17,5 +17,7 @@ public interface Shape extends Drawable, Movable
 		public double[] getShapeMeta();
 		public void setX(double x);
 		public void setY(double y);
+		public void setMoveCoor(double x, double y);
+		public double[] getMoveCoor();
 		
 	}
