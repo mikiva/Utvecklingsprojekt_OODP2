@@ -8,8 +8,11 @@ import java.util.List;
 import se.hig.oodp2.commands.CommandStack;
 import se.hig.oodp2.commands.Create;
 import se.hig.oodp2.commands.Move;
+import se.hig.oodp2.shapes.SelectedShapes;
 import se.hig.oodp2.shapes.Shape;
 import se.hig.oodp2.shapes.ShapeList;
+import se.hig.oodp2.states.NoSelected;
+import se.hig.oodp2.states.SelectedState;
 import se.hig.oopd2.projekt.DrawPanel;
 
 public class MouseHandler implements MouseListener, MouseMotionListener
@@ -32,6 +35,8 @@ public class MouseHandler implements MouseListener, MouseMotionListener
 		private int fromX;
 		private int fromY;
 		double meta[];
+		private SelectedState selectState;
+		private Shape selectedShape;
 
 		public MouseHandler(DrawPanel pan)
 			{
@@ -40,6 +45,7 @@ public class MouseHandler implements MouseListener, MouseMotionListener
 				this.panel = pan;
 				this.list = ShapeList.getInstance();
 				this.commands = CommandStack.getInstance();
+				this.selectState = new NoSelected(this);
 
 			}
 
@@ -82,6 +88,10 @@ public class MouseHandler implements MouseListener, MouseMotionListener
 			{
 
 				selected = panel.isShapeSelected(e.getX(), e.getY());
+
+				selectShape(selected);
+
+				SelectedShapes selShapes = new SelectedShapes();
 				if (selected == null)
 					panel.clearSelList();
 
@@ -226,4 +236,15 @@ public class MouseHandler implements MouseListener, MouseMotionListener
 
 				return found;
 			}
+
+		public void selectShape(Shape s)
+			{
+
+				selectState.select(s);
+				selectedShape = selectState.getSelected();
+			}
+		
+		public void setState(SelectedState state){
+			selectState = state;
+		}
 	}
