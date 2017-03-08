@@ -29,7 +29,7 @@ public class DrawPanel extends JPanel
 
 		private int movX;
 		private int movY;
-		ShapeState shapeState;
+		private ShapeState shapeState;
 		private List<Shape> selList;
 		private CommandStack commands;
 		private Shape tempShape;
@@ -113,6 +113,8 @@ public class DrawPanel extends JPanel
 			{
 				Shape found = null;
 
+				
+				
 				for (Shape c : list)
 					{
 						if (c.inside(x, y))

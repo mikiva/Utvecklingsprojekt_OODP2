@@ -11,6 +11,9 @@ public class SelectedShapes implements Shape
 		private double y = -1;
 		private double mX;
 		private double mY;
+		private double w = -1;
+		private double h = -1;
+		private double[] mCoor = new double[2];
 
 		public SelectedShapes()
 			{
@@ -21,10 +24,20 @@ public class SelectedShapes implements Shape
 		@Override
 		public void draw(Graphics g)
 			{
-				
+
 				for (Shape s : compList)
 					s.draw(g);
 
+				if (!compList.isEmpty())
+					{
+						new Line(x, y, x + w, y).draw(g);
+						new Line(x, y, x, y + h).draw(g);
+						g.setColor(Color.red);
+						// g.drawLine((int) x, (int) y, (int) (x + w), (int)
+						// (y));
+						// g.drawLine((int) x, (int) y, (int) (x), (int) (y +
+						// h));
+					}
 			}
 
 		@Override
@@ -39,19 +52,33 @@ public class SelectedShapes implements Shape
 				for (Shape s : compList)
 					{
 
-						double[] mCoor = s.getMoveCoor();
-						int dx = (int)(x - (mCoor[0]-s.getX()));
-						int dy = (int)(y - (mCoor[1]-s.getY()));
+						mCoor = s.getMoveCoor();
+						int dx = (int) (s.getX() - this.x);
+						int dy = (int) ((s.getY() - this.y));
 
-						s.move((int)(x+(mCoor[0])), (int)(y+(mCoor[1])));
+						s.move(x + dx, y + dy);
+
+						// s.move((int) (x + (mCoor[0])), (int) (y +
+						// (mCoor[1])));
 					}
+
+				// double x1 = this.x - x;
+				// double y1 = this.y - y;
+				this.x = x;
+				this.y = y;
 
 			}
 
 		@Override
 		public boolean inside(int x, int y)
 			{
-				// TODO Auto-generated method stub
+
+				if (x >= this.x && x < this.x + w)
+					{
+						if (y >= this.y && y <= this.y + h)
+							return true;
+					}
+
 				return false;
 			}
 
@@ -65,7 +92,16 @@ public class SelectedShapes implements Shape
 		@Override
 		public void setSize(int w, int h)
 			{
-				// TODO Auto-generated method stub
+
+				int tempX = -1;
+				int tempY = -1;
+				for (Shape s : compList)
+					{
+						if (this.x + this.w < (s.getX() + s.getWidth()))
+							this.w = ((s.getX() + s.getWidth()) - this.x);
+						if (this.y + this.h < (s.getY() + s.getHeight()))
+							this.h = ((s.getY() + s.getHeight()) - this.y);
+					}
 
 			}
 
@@ -112,6 +148,7 @@ public class SelectedShapes implements Shape
 		@Override
 		public void setX(double x)
 			{
+
 				if (this.x < 0 || this.x > x)
 					this.x = x;
 			}
@@ -136,8 +173,8 @@ public class SelectedShapes implements Shape
 			{
 				setX(s.getX());
 				setY(s.getY());
+				setSize(s.getX(), s.getY());
 				compList.add(s);
-				
 
 			}
 
@@ -158,8 +195,10 @@ public class SelectedShapes implements Shape
 				// TODO Auto-generated method stub
 				return null;
 			}
-		public List<Shape> disolveComp(){
-			return compList;
-		}
+
+		public List<Shape> getShapesFromComp()
+			{
+				return compList;
+			}
 
 	}

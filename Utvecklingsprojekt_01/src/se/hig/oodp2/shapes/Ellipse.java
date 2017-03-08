@@ -132,22 +132,21 @@ public class Ellipse implements Shape
 		@Override
 		public void setX(double x)
 			{
-				dx = x;
+				this.x = x;
 
 			}
 
 		@Override
 		public void setY(double y)
 			{
-				dy = y;
+				this.y = y;
 
 			}
 
 		@Override
 		public void setMoveCoor(double x, double y)
 			{
-				moveCoor[0] = (x - this.x);
-				moveCoor[1] = (y - this.y);
+
 			}
 
 		@Override

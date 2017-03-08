@@ -24,33 +24,45 @@ public class SelectedShapesState implements SelectedState
 		@Override
 		public void select(Shape s)
 			{
-				
+
 				selShape.addShape(s);
 				list.remove(s);
 				list.add(selShape);
-				
+
 			}
 
 		@Override
-		public Shape getSelected()
+		public SelectedShapes getSelected()
 			{
 
-				
-				
 				return selShape;
 			}
 
 		@Override
 		public void deSelect()
 			{
-				
-				for(Shape s : selShape.disolveComp())
+
+				for (Shape s : selShape.getShapesFromComp())
 					list.add(s);
+
+				selShape.getShapesFromComp().clear();
 				
-				handler.setNullObject();
 				handler.setState(new NoSelected(handler));
-				
+
 			}
+		@Override
+		public boolean isSelected()
+			{
+				// TODO Auto-generated method stub
+				return true;
+			}
+		
+		@Override
+		public boolean isSelected(Shape shape)
+			{
+				return list.contains(shape);
+			}
+
 
 
 	}

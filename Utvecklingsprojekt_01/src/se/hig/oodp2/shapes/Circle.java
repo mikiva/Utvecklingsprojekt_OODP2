@@ -155,8 +155,8 @@ public class Circle implements Shape
 		@Override
 		public void setMoveCoor(double x, double y)
 			{
-				moveCoor[0] = x;
-				moveCoor[1] = y;
+				moveCoor[0] = this.x - x;
+				moveCoor[1] = this.x - y;
 				
 			}
 

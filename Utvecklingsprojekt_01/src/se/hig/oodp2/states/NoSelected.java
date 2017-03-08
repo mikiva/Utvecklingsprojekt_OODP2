@@ -1,6 +1,7 @@
 package se.hig.oodp2.states;
 
 import se.hig.oodp2.handlers.MouseHandler;
+import se.hig.oodp2.shapes.SelectedShapes;
 import se.hig.oodp2.shapes.Shape;
 
 public class NoSelected implements SelectedState
@@ -21,7 +22,7 @@ public class NoSelected implements SelectedState
 			}
 
 		@Override
-		public Shape getSelected()
+		public SelectedShapes getSelected()
 			{
 
 				return null;
@@ -32,5 +33,20 @@ public class NoSelected implements SelectedState
 			{
 
 			}
+
+		@Override
+		public boolean isSelected()
+			{
+
+				return false;
+			}
+
+		@Override
+		public boolean isSelected(Shape s)
+			{
+				
+				return false;
+			}
+		
 
 	}

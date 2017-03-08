@@ -61,16 +61,23 @@ public class StickMan implements Shape
 				// g.drawLine((int)(x1), (int)(y1+(w/3)),
 				// (int)(x1+w/4),(int)(y1+(w/3)));
 
-				g.drawOval((int) (x1 + w/6), (int) y1, (int) ((2*(w/3))), (int)((2*(w/3)))); // head
-				g.drawLine((int) (x1 + (w/2)), (int) (y1 + (2*w/3)), (int) ((x1 + (w/2))), (int) (y1 + (h*0.8))); // body
-				g.drawLine((int) (x1), (int) (y1 + ((w))), (int) (x1 + w), (int) (y1 + (w))); // arms
-				g.drawLine((int) (x1 + (w/2)), (int) (y1 + (h*0.8)), (int) (x1), (int) (y1 + h)); // left
-																												// leg
-				g.drawLine((int) (x1 + (w / 2)), (int) (y1 + (h*0.8)), (int) (x1 + w), (int) (y1 + h)); // right
-																													// leg
+//				g.drawOval((int) (x1 + w/6), (int) y1, (int) ((2*(w/3))), (int)((2*(w/3)))); // head
+//				g.drawLine((int) (x1 + (w/2)), (int) (y1 + (2*w/3)), (int) ((x1 + (w/2))), (int) (y1 + (h*0.8))); // body
+//				g.drawLine((int) (x1), (int) (y1 + ((w))), (int) (x1 + w), (int) (y1 + (w))); // arms
+//				g.drawLine((int) (x1 + (w/2)), (int) (y1 + (h*0.8)), (int) (x1), (int) (y1 + h)); // left
+//																												// leg
+//				g.drawLine((int) (x1 + (w / 2)), (int) (y1 + (h*0.8)), (int) (x1 + w), (int) (y1 + h)); // right
+//																													// leg
 				g.setColor(Color.red);
 				g.drawLine((int)x1, (int)y1, (int)x1, (int)(y1+h));
 				g.drawLine((int)x1, (int)y1, (int)(x1+w), (int)(y1));
+				
+				
+				new Circle(x1 + w/6, y1, (2*(w/3)), 2*(w/3)).draw(g); //head
+				new Line(x1 + (w/2),(y1 + (2*w/3)),((x1 + (w/2))),(y1 + (h*0.8))).draw(g); //body
+				new Line(x1,(y1 + (w)),(x1 + w),(y1 + w)).draw(g);//arms
+				new Line(x1 + (w/2),(y1 + (h*0.8)),(x1),(y1 + h)).draw(g);//left leg
+				new Line(x1 + (w/2),(y1 + (h*0.8)),(x1 + w),(y1 + h)).draw(g);//right leg
 
 			}
 
