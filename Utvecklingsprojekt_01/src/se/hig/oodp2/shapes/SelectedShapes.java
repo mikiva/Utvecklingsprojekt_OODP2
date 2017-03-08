@@ -137,6 +137,7 @@ public class SelectedShapes implements Shape
 				setX(s.getX());
 				setY(s.getY());
 				compList.add(s);
+				
 
 			}
 
@@ -157,5 +158,8 @@ public class SelectedShapes implements Shape
 				// TODO Auto-generated method stub
 				return null;
 			}
+		public List<Shape> disolveComp(){
+			return compList;
+		}
 
 	}

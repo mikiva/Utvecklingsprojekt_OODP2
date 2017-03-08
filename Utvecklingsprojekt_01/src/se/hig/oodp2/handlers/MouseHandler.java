@@ -72,9 +72,12 @@ public class MouseHandler implements MouseListener, MouseMotionListener
 
 						selectedShape.setMoveCoor(e.getX(), e.getY());
 						selectedShape.move((int) e.getX(), (int) e.getY());
+						
+						
 					}
 				if (s != null)
 					panel.drawDyn(s, e.getX(), e.getY());
+
 
 				panel.repaint();
 

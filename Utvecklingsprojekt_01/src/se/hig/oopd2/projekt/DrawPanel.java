@@ -32,7 +32,7 @@ public class DrawPanel extends JPanel
 		ShapeState shapeState;
 		private List<Shape> selList;
 		private CommandStack commands;
-		// private Shape tempShape;
+		private Shape tempShape;
 
 		public DrawPanel()
 			{
@@ -64,6 +64,9 @@ public class DrawPanel extends JPanel
 
 				for (Shape c : list)
 					c.draw(g);
+				
+				if(tempShape != null)
+					tempShape.draw(g);
 
 			}
 
@@ -104,6 +107,7 @@ public class DrawPanel extends JPanel
 
 				repaint();
 			}
+
 
 		public Shape isShapeSelected(int x, int y)
 			{
