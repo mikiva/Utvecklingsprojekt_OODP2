@@ -106,7 +106,7 @@ public class Circle implements Shape
 
 		public String toString()
 			{
-				return null;
+				return "Circle";
 			}
 
 		@Override

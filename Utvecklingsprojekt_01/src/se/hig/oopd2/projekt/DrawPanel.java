@@ -4,7 +4,10 @@ import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
+import java.awt.Insets;
 import java.util.List;
+import java.util.Observable;
+import java.util.Observer;
 
 import javax.swing.JPanel;
 
@@ -18,7 +21,7 @@ import se.hig.oodp2.shapes.ShapeList;
 import se.hig.oodp2.states.CircleState;
 import se.hig.oodp2.states.ShapeState;
 
-public class DrawPanel extends JPanel
+public class DrawPanel extends JPanel implements Observer
 	{
 
 		private ShapeList<Shape> list;
@@ -33,11 +36,13 @@ public class DrawPanel extends JPanel
 		private List<Shape> selList;
 		private CommandStack commands;
 		private Shape tempShape;
+		private LayerPanel layerPanel;
 
-		public DrawPanel()
+		public DrawPanel(LayerPanel lp)
 			{
 
 				super();
+				layerPanel = lp;
 				list = ShapeList.getInstance();
 				setBackground(Color.gray);
 				MouseHandler handler = new MouseHandler(this);
@@ -67,6 +72,8 @@ public class DrawPanel extends JPanel
 				
 				if(tempShape != null)
 					tempShape.draw(g);
+				
+		
 
 			}
 
@@ -99,6 +106,7 @@ public class DrawPanel extends JPanel
 		public void addToList(Shape s)
 			{
 				list.add(s);
+				layerPanel.updateLayers();
 			}
 
 		public void drawDyn(Shape s, int x, int y)
@@ -181,12 +189,14 @@ public class DrawPanel extends JPanel
 		public void clear()
 			{
 				commands.doCommand(new Clear());
+				layerPanel.updateLayers();
 				// list.clear();
 			}
 
 		public void remove(Shape s)
 			{
 				list.remove(s);
+				layerPanel.updateLayers();
 			}
 		public void setCommandStack(CommandStack commands)
 			{
@@ -223,6 +233,15 @@ public class DrawPanel extends JPanel
 							}
 					}
 
+			}
+
+		@Override
+		public void update(Observable o, Object arg)
+			{
+				System.out.println("update");
+				
+				repaint();
+				
 			}
 
 	}

@@ -17,7 +17,7 @@ public class NoSelected implements SelectedState
 		@Override
 		public void select(Shape s)
 			{
-				handler.setState(new SelectedShapesState(handler, s));
+				handler.setState(new OneSelectedState(handler, s));
 
 			}
 
@@ -46,6 +46,13 @@ public class NoSelected implements SelectedState
 			{
 				
 				return false;
+			}
+
+		@Override
+		public void deSelect(int x, int y)
+			{
+				// TODO Auto-generated method stub
+				
 			}
 		
 

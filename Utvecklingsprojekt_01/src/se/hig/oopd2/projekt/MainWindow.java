@@ -16,13 +16,19 @@ public class MainWindow extends JFrame
 		JPanel mainPanel;
 		DrawPanel drawPanel;
 		ControlPanel control;
+		LayerPanel layerPanel;
+		private final int FRAME_WIDTH = 1000;
+		private final int FRAME_HEIGHT = 800;
 
 		public MainWindow()
 			{
 				super("Version 1");
-				setSize(800, 600);
+				setSize(FRAME_WIDTH, FRAME_HEIGHT);
+				setLocationRelativeTo(null);
 				mainPanel = new JPanel();
-				drawPanel = new DrawPanel();
+				layerPanel = new LayerPanel();
+				drawPanel = new DrawPanel(layerPanel);
+
 				setContentPane(mainPanel);
 				control = new ControlPanel();
 				setJMenuBar(makeMenuBar());
@@ -32,6 +38,7 @@ public class MainWindow extends JFrame
 
 				mainPanel.add(control, BorderLayout.SOUTH);
 				mainPanel.add(drawPanel, BorderLayout.CENTER);
+				mainPanel.add(layerPanel, BorderLayout.EAST);
 				control.setDrawPanel(drawPanel);
 				
 				// mainPanel.add(new Button1(), BorderLayout.CENTER);

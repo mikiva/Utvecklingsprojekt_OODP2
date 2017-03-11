@@ -3,16 +3,18 @@ package se.hig.oodp2.shapes;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.util.List;
+import java.util.Observable;
+import java.util.Observer;
 
-public class SelectedShapes implements Shape
+public class SelectedShapes implements Shape, Observer
 	{
 		private ShapeList<Shape> compList;
 		private double x = -1;
 		private double y = -1;
 		private double mX;
 		private double mY;
-		private double w = -1;
-		private double h = -1;
+		private double w;
+		private double h;
 		private double[] mCoor = new double[2];
 
 		public SelectedShapes()
@@ -30,13 +32,10 @@ public class SelectedShapes implements Shape
 
 				if (!compList.isEmpty())
 					{
-						new Line(x, y, x + w, y).draw(g);
-						new Line(x, y, x, y + h).draw(g);
+						new Line(x, y, (x + w), y).draw(g);
+						new Line(x, y, x, (y + h)).draw(g);
 						g.setColor(Color.red);
-						// g.drawLine((int) x, (int) y, (int) (x + w), (int)
-						// (y));
-						// g.drawLine((int) x, (int) y, (int) (x), (int) (y +
-						// h));
+
 					}
 			}
 
@@ -52,18 +51,13 @@ public class SelectedShapes implements Shape
 				for (Shape s : compList)
 					{
 
-						mCoor = s.getMoveCoor();
 						int dx = (int) (s.getX() - this.x);
 						int dy = (int) ((s.getY() - this.y));
 
 						s.move(x + dx, y + dy);
 
-						// s.move((int) (x + (mCoor[0])), (int) (y +
-						// (mCoor[1])));
 					}
 
-				// double x1 = this.x - x;
-				// double y1 = this.y - y;
 				this.x = x;
 				this.y = y;
 
@@ -73,9 +67,9 @@ public class SelectedShapes implements Shape
 		public boolean inside(int x, int y)
 			{
 
-				if (x >= this.x && x < this.x + w)
+				for (Shape s : compList)
 					{
-						if (y >= this.y && y <= this.y + h)
+						if (s.inside(x, y))
 							return true;
 					}
 
@@ -97,11 +91,13 @@ public class SelectedShapes implements Shape
 				int tempY = -1;
 				for (Shape s : compList)
 					{
-						if (this.x + this.w < (s.getX() + s.getWidth()))
-							this.w = ((s.getX() + s.getWidth()) - this.x);
-						if (this.y + this.h < (s.getY() + s.getHeight()))
-							this.h = ((s.getY() + s.getHeight()) - this.y);
+						if (tempX < (s.getX() + s.getWidth()))
+							tempX = ((s.getX() + s.getWidth()));
+						if (tempY < (s.getY() + s.getHeight()))
+							tempY = ((s.getY() + s.getHeight()));
 					}
+				this.w = tempX- this.x;;
+				this.h = tempY - this.y;
 
 			}
 
@@ -171,10 +167,10 @@ public class SelectedShapes implements Shape
 
 		public void addShape(Shape s)
 			{
+				compList.add(s);
 				setX(s.getX());
 				setY(s.getY());
 				setSize(s.getX(), s.getY());
-				compList.add(s);
 
 			}
 
@@ -199,6 +195,13 @@ public class SelectedShapes implements Shape
 		public List<Shape> getShapesFromComp()
 			{
 				return compList;
+			}
+
+		@Override
+		public void update(Observable o, Object arg)
+			{
+				setSize(0, 0);
+
 			}
 
 	}

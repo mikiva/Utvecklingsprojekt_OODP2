@@ -3,7 +3,7 @@ package se.hig.oodp2.shapes;
 import java.util.LinkedList;
 
 
-public class ShapeList<T> extends LinkedList<T>
+public class ShapeList<T> extends LinkedList<T> 
 	{
 
 		/**

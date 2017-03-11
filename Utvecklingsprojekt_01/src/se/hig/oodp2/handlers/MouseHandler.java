@@ -4,6 +4,7 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
 import java.util.List;
+import java.util.Observable;
 
 import se.hig.oodp2.commands.CommandStack;
 import se.hig.oodp2.commands.Create;
@@ -15,7 +16,7 @@ import se.hig.oodp2.states.NoSelected;
 import se.hig.oodp2.states.SelectedState;
 import se.hig.oopd2.projekt.DrawPanel;
 
-public class MouseHandler implements MouseListener, MouseMotionListener
+public class MouseHandler extends Observable implements MouseListener, MouseMotionListener
 	{
 
 		private DrawPanel panel;
@@ -26,6 +27,7 @@ public class MouseHandler implements MouseListener, MouseMotionListener
 		private int mY;
 		int x = 0;
 		int y = 0;
+		
 
 		int x1 = 0;
 		int y1 = 0;
@@ -37,6 +39,7 @@ public class MouseHandler implements MouseListener, MouseMotionListener
 		double meta[];
 		private SelectedState selectState;
 		private SelectedShapes selectedShape;
+	
 
 		public MouseHandler(DrawPanel pan)
 			{
@@ -46,6 +49,9 @@ public class MouseHandler implements MouseListener, MouseMotionListener
 				this.list = ShapeList.getInstance();
 				this.commands = CommandStack.getInstance();
 				this.selectState = new NoSelected(this);
+				this.selectedShape = new SelectedShapes();
+				addObserver(panel);
+				addObserver(selectedShape);
 
 			}
 
@@ -75,7 +81,7 @@ public class MouseHandler implements MouseListener, MouseMotionListener
 				if (s != null)
 					panel.drawDyn(s, e.getX(), e.getY());
 
-				panel.repaint();
+				// panel.repaint();
 
 			}
 
@@ -89,6 +95,9 @@ public class MouseHandler implements MouseListener, MouseMotionListener
 		@Override
 		public void mouseClicked(MouseEvent e)
 			{
+
+				// if (selected != null && selectState.isSelected(selected))
+				// deSelectShape(selected);
 
 				// selected = panel.isShapeSelected(e.getX(), e.getY());
 				//
@@ -180,24 +189,41 @@ public class MouseHandler implements MouseListener, MouseMotionListener
 				if (selected == null)
 					selectState.deSelect();
 
+				else if (selected != null && selectState.isSelected(selected))
+					{
+						// deSelectShape(selected);
+					}
+
 				else
 					{
+						System.out.println(selected.toString() + " selected");
+						if (!(selected instanceof SelectedShapes) && e.isShiftDown())
+							selectShape(selected);
 
-						selectShape(selected);
+						else if (selected instanceof SelectedShapes && e.isShiftDown())
+							{
+								deSelectShape(e.getX(), e.getY());
+							}
+
+						panel.repaint();
+
+						// commands.doCommand(new Select(selected, this));
 
 						// selectedShape.setX(selected.getX());
 						// selectedShape.setY(selected.getY());
 						//
+						if (selectedShape != null)
+							{
+								fromX = selectedShape.getX();
+								fromY = selectedShape.getY();
 
-						fromX = selectedShape.getX();
-						fromY = selectedShape.getY();
-
-						// selectedShape.setMoveCoor(e.getX(), e.getY());
-						x1 = e.getX() - selectedShape.getX();
-						y1 = e.getY() - selectedShape.getY();
-						// System.out.println(selectedShape.toString() +
-						// "Selected");
-
+								// selectedShape.setMoveCoor(e.getX(),
+								// e.getY());
+								x1 = e.getX() - selectedShape.getX();
+								y1 = e.getY() - selectedShape.getY();
+								// System.out.println(selectedShape.toString() +
+								// "Selected");
+							}
 					}
 
 				// if (selectedShape != null)
@@ -263,8 +289,10 @@ public class MouseHandler implements MouseListener, MouseMotionListener
 				// }
 
 				// System.out.println(length);
-				selected = null;
+				// selected = null;
 				s = null;
+				setChanged();
+				notifyObservers();
 				panel.repaint();
 
 			}
@@ -294,8 +322,21 @@ public class MouseHandler implements MouseListener, MouseMotionListener
 
 		public void selectShape(Shape s)
 			{
+				if (!selectState.isSelected(s))
+					{
+						selectState.select(s);
+						selectedShape = selectState.getSelected();
+					}
+				// System.out.println(selectedShape.toString() + " ellipse");
+				panel.repaint();
+			}
 
-				selectState.select(s);
+		public void deSelectShape(int x, int y)
+			{
+				
+				selectState.deSelect(x, y);
+				
+				//selectState.deSelect(s);
 				selectedShape = selectState.getSelected();
 				panel.repaint();
 			}

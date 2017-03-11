@@ -155,5 +155,8 @@ public class Ellipse implements Shape
 				
 				return moveCoor;
 			}
+		public String toString(){
+			return "Ellipse";
+		}
 
 	}

@@ -9,6 +9,7 @@ public interface SelectedState
 		public void select(Shape s);
 		public SelectedShapes getSelected();
 		public void deSelect();
+		public void deSelect(int x, int y);
 		public boolean isSelected();
 		public boolean isSelected(Shape s);
 		

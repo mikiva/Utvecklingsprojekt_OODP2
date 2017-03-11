@@ -1,5 +1,7 @@
 package se.hig.oodp2.states;
 
+import java.util.List;
+
 import se.hig.oodp2.handlers.MouseHandler;
 import se.hig.oodp2.shapes.SelectedShapes;
 import se.hig.oodp2.shapes.Shape;
@@ -12,12 +14,13 @@ public class SelectedShapesState implements SelectedState
 		private MouseHandler handler;
 		private ShapeList<Shape> list;
 
-		public SelectedShapesState(MouseHandler handler, Shape s)
+		public SelectedShapesState(MouseHandler handler, SelectedShapes s, Shape shap)
 			{
+				System.out.println("Multiple selected");
 				list = ShapeList.getInstance();
-				selShape = new SelectedShapes();
+				selShape = s;
 				this.handler = handler;
-				select(s);
+				select(shap);
 				System.out.println("Selected State");
 			}
 
@@ -46,23 +49,43 @@ public class SelectedShapesState implements SelectedState
 					list.add(s);
 
 				selShape.getShapesFromComp().clear();
-				
+
 				handler.setState(new NoSelected(handler));
 
 			}
+
+		@Override
+		public void deSelect(int x, int y)
+			{
+				// List<Shape> sList = selShape.getShapesFromComp();
+				Shape shape = null;
+				for (Shape s : selShape.getShapesFromComp())
+					{
+						if (s.inside(x, y))
+							shape = s;
+						break;
+					}
+				if (shape != null)
+					{
+						selShape.getShapesFromComp().remove(shape);
+						list.add(shape);
+						if (selShape.getShapesFromComp().size() == 1)
+							handler.setState(new OneSelectedState(handler, selShape.getShapesFromComp().get(0)));
+					}
+
+			}
+
 		@Override
 		public boolean isSelected()
 			{
 				// TODO Auto-generated method stub
 				return true;
 			}
-		
+
 		@Override
 		public boolean isSelected(Shape shape)
 			{
-				return list.contains(shape);
+				return selShape.getShapesFromComp().contains(shape);
 			}
-
-
 
 	}
