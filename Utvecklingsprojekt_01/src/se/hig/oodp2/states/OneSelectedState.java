@@ -11,14 +11,14 @@ public class OneSelectedState implements SelectedState
 	{
 		MouseHandler handler;
 		Shape shape;
-		SelectedShapes selShape;
+		SelectedShapes selShape = SelectedShapes.getInstance();
 		List<Shape> list;
 
 		public OneSelectedState(MouseHandler handler, Shape s)
 			{
 				this.handler = handler;
 				list = ShapeList.getInstance();
-				this.selShape = new SelectedShapes();
+				this.selShape = SelectedShapes.getInstance();
 				selShape.addShape(s);
 				selShape.setSize(s.getWidth(), s.getHeight());
 				list.remove(s);
@@ -28,7 +28,7 @@ public class OneSelectedState implements SelectedState
 		@Override
 		public void select(Shape s)
 			{
-				handler.setState(new SelectedShapesState(handler, selShape, s));
+				handler.setState(new SelectedShapesState(handler, s));
 			}
 
 		@Override

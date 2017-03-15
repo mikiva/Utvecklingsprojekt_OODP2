@@ -51,18 +51,21 @@ public class LayerPanel extends JPanel
 				
 				//layerText.setText(null);
 				JTextArea ltext;
-				int i = 0;
+				int i = list.size();
 				this.removeAll();
 				c.insets = new Insets(5, 0, 5, 0);
+				
 				for (Shape s : list)
 					{
 						layerText = new JTextArea(s.toString());
 						//layerText.append(s.toString());
+						layerText.setPreferredSize(new Dimension(getWidth(), 25));
 						c.fill = GridBagConstraints.HORIZONTAL;
-						c.gridy = i++;
-						
-						
+						c.gridy = i--;
+						c.gridx = 1;
 						this.add(layerText, c);
+						c.gridx = 0;
+						this.add(new ToggleButton("t", s), c);
 						
 						
 					}

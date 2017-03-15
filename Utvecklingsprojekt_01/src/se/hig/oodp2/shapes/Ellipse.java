@@ -17,6 +17,7 @@ public class Ellipse implements Shape
 		private int ymax;
 		private Color color;
 		private double[] moveCoor = new double[2];
+		private boolean isVisible = true;
 
 		public Ellipse(double x, double y)
 			{
@@ -143,20 +144,25 @@ public class Ellipse implements Shape
 
 			}
 
-		@Override
-		public void setMoveCoor(double x, double y)
-			{
 
+
+		public String toString()
+			{
+				return "Ellipse " + isVisible();
 			}
 
 		@Override
-		public double[] getMoveCoor()
+		public void toggleVisible()
 			{
-				
-				return moveCoor;
+				isVisible = !isVisible;
+			
 			}
-		public String toString(){
-			return "Ellipse";
-		}
+
+		@Override
+		public boolean isVisible()
+			{
+
+				return isVisible;
+			}
 
 	}

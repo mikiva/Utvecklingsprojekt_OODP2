@@ -11,6 +11,7 @@ public class Line implements Shape
 		private double y1;
 		private double y2;
 		private Color color;
+		private boolean isVisible = true;
 
 		public Line(double x1, double y1, double x2, double y2)
 			{
@@ -139,18 +140,20 @@ public class Line implements Shape
 				
 			}
 
+
+
 		@Override
-		public void setMoveCoor(double x, double y)
+		public void toggleVisible()
 			{
 				// TODO Auto-generated method stub
 				
 			}
 
 		@Override
-		public double[] getMoveCoor()
+		public boolean isVisible()
 			{
 				// TODO Auto-generated method stub
-				return null;
+				return isVisible;
 			}
 
 	}

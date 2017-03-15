@@ -17,6 +17,7 @@ public class Circle implements Shape
 		private int ymax;
 		private Color color;
 		private double[] moveCoor = new double[2];
+		private boolean isVisible = true;
 
 		public Circle(double x, double y, double w, double h)
 			{
@@ -57,6 +58,7 @@ public class Circle implements Shape
 			{
 
 				this.h = x2 - this.x;
+
 
 			}
 
@@ -152,19 +154,20 @@ public class Circle implements Shape
 				return null;
 			}
 
+
+
 		@Override
-		public void setMoveCoor(double x, double y)
+		public void toggleVisible()
 			{
-				moveCoor[0] = this.x - x;
-				moveCoor[1] = this.x - y;
+				// TODO Auto-generated method stub
 				
 			}
 
 		@Override
-		public double[] getMoveCoor()
+		public boolean isVisible()
 			{
 				// TODO Auto-generated method stub
-				return moveCoor;
+				return isVisible;
 			}
 
 	}

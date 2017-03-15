@@ -9,8 +9,8 @@ import javax.swing.JPanel;
 import javax.swing.JTextArea;
 
 import se.hig.oodp2.commands.CommandStack;
-import se.hig.oodp2.commands.Create;
-import se.hig.oodp2.shapes.Shape;
+import se.hig.oodp2.commands.Delete;
+import se.hig.oodp2.commands.Group;
 import se.hig.oodp2.states.CircleState;
 import se.hig.oodp2.states.EllipseState;
 import se.hig.oodp2.states.LineState;
@@ -87,12 +87,18 @@ public class ControlPanel extends JPanel
 				c.gridy = 1;
 				c.gridx = 5;
 				this.add(deleteB, c);
+				
+				Button1 groupB = new Button1("Group");
+				c.gridy = 1;
+				c.gridx = 6;
+				this.add(groupB, c);
 
 				JTextArea status = new JTextArea();
 				c.gridx = 0;
 				c.gridy = 1;
 				this.add(status, c);
 				status.setText("Circle");
+				
 
 				but1.addActionListener(new ActionListener()
 					{
@@ -204,11 +210,22 @@ public class ControlPanel extends JPanel
 						public void actionPerformed(ActionEvent e)
 							{
 
-								drawPanel.delete();
+								commands.doCommand(new Delete());
 								
 
 								repaint();
 
+							}
+					});
+				groupB.addActionListener(new ActionListener()
+					{
+						
+						@Override
+						public void actionPerformed(ActionEvent e)
+							{
+								commands.doCommand(new Group());
+								repaint();
+								
 							}
 					});
 

@@ -4,7 +4,6 @@ import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
-import java.awt.Insets;
 import java.util.List;
 import java.util.Observable;
 import java.util.Observer;
@@ -15,7 +14,10 @@ import se.hig.oodp2.commands.Clear;
 import se.hig.oodp2.commands.CommandStack;
 import se.hig.oodp2.commands.Create;
 import se.hig.oodp2.commands.Delete;
+import se.hig.oodp2.commands.Group;
 import se.hig.oodp2.handlers.MouseHandler;
+import se.hig.oodp2.shapes.GroupShape;
+import se.hig.oodp2.shapes.SelectedShapes;
 import se.hig.oodp2.shapes.Shape;
 import se.hig.oodp2.shapes.ShapeList;
 import se.hig.oodp2.states.CircleState;
@@ -37,6 +39,7 @@ public class DrawPanel extends JPanel implements Observer
 		private CommandStack commands;
 		private Shape tempShape;
 		private LayerPanel layerPanel;
+		private SelectedShapes selShape = SelectedShapes.getInstance();
 
 		public DrawPanel(LayerPanel lp)
 			{
@@ -68,12 +71,13 @@ public class DrawPanel extends JPanel implements Observer
 				// g.drawLine(movX, 0, movX, getHeight());
 
 				for (Shape c : list)
-					c.draw(g);
-				
-				if(tempShape != null)
+					{
+						if (c.isVisible())
+							c.draw(g);
+					}
+
+				if (tempShape != null)
 					tempShape.draw(g);
-				
-		
 
 			}
 
@@ -116,13 +120,10 @@ public class DrawPanel extends JPanel implements Observer
 				repaint();
 			}
 
-
 		public Shape isShapeSelected(int x, int y)
 			{
 				Shape found = null;
 
-				
-				
 				for (Shape c : list)
 					{
 						if (c.inside(x, y))
@@ -171,14 +172,9 @@ public class DrawPanel extends JPanel implements Observer
 
 		public void delete()
 			{
-				if (selList.isEmpty())
-					return;
 
-				for (Shape s : selList)
-					{
-						commands.doCommand(new Delete(s, this));
-					}
-				
+				commands.doCommand(new Delete());
+				repaint();
 			}
 
 		public void setShapeState(ShapeState state)
@@ -198,6 +194,7 @@ public class DrawPanel extends JPanel implements Observer
 				list.remove(s);
 				layerPanel.updateLayers();
 			}
+
 		public void setCommandStack(CommandStack commands)
 			{
 				this.commands = commands;
@@ -226,8 +223,8 @@ public class DrawPanel extends JPanel implements Observer
 								if (getHeight() > 0)
 									movY = (movY + 1) % getHeight();
 
-//								 for(Shape c : list)
-//								 c.move();
+								// for(Shape c : list)
+								// c.move();
 
 								repaint();
 							}
@@ -239,9 +236,9 @@ public class DrawPanel extends JPanel implements Observer
 		public void update(Observable o, Object arg)
 			{
 				System.out.println("update");
-				
+
 				repaint();
-				
+
 			}
 
 	}

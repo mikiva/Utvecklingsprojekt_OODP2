@@ -2,6 +2,7 @@ package se.hig.oodp2.commands;
 
 import java.util.List;
 
+import se.hig.oodp2.shapes.SelectedShapes;
 import se.hig.oodp2.shapes.Shape;
 import se.hig.oodp2.shapes.ShapeList;
 import se.hig.oopd2.projekt.DrawPanel;
@@ -12,33 +13,30 @@ public class Delete implements Command
 		List<Shape> tempList;
 		DrawPanel panel;
 		Shape shape;
+		SelectedShapes selShape = SelectedShapes.getInstance();
 
-		public Delete(Shape s, DrawPanel pan)
+		public Delete()
 			{
 				list = ShapeList.getInstance();
 				tempList = new ShapeList<>();
-				this.panel = pan;
-				this.shape = s;
+
 			}
 
 		@Override
 		public void execute()
 			{
-				for (Shape s : list)
+				for (Shape s : selShape.getShapesFromComp())
 					tempList.add(s);
 
-				list.remove(shape);
+				selShape.clear();
 
 			}
 
 		@Override
 		public void undo()
 			{
-
-				list.clear();
-
-				for (Shape s : tempList)
-					list.add(s);
+				for(Shape s : tempList)
+					selShape.addShape(s);
 
 			}
 

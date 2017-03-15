@@ -17,4 +17,6 @@ public class ShapeList<T> extends LinkedList<T>
 		public static ShapeList<Shape> getInstance(){
 			return shapeList;
 		}
+		
+
 	}

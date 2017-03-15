@@ -38,7 +38,7 @@ public class MainWindow extends JFrame
 
 				mainPanel.add(control, BorderLayout.SOUTH);
 				mainPanel.add(drawPanel, BorderLayout.CENTER);
-				mainPanel.add(layerPanel, BorderLayout.EAST);
+				//mainPanel.add(layerPanel, BorderLayout.EAST);
 				control.setDrawPanel(drawPanel);
 				
 				// mainPanel.add(new Button1(), BorderLayout.CENTER);

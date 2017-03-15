@@ -14,11 +14,11 @@ public class SelectedShapesState implements SelectedState
 		private MouseHandler handler;
 		private ShapeList<Shape> list;
 
-		public SelectedShapesState(MouseHandler handler, SelectedShapes s, Shape shap)
+		public SelectedShapesState(MouseHandler handler, Shape shap)
 			{
 				System.out.println("Multiple selected");
 				list = ShapeList.getInstance();
-				selShape = s;
+				this.selShape = SelectedShapes.getInstance();
 				this.handler = handler;
 				select(shap);
 				System.out.println("Selected State");
@@ -62,15 +62,17 @@ public class SelectedShapesState implements SelectedState
 				for (Shape s : selShape.getShapesFromComp())
 					{
 						if (s.inside(x, y))
-							shape = s;
-						break;
+							{
+								shape = s;
+								break;
+							}
 					}
 				if (shape != null)
 					{
-						selShape.getShapesFromComp().remove(shape);
+						selShape.removeShape(shape);
 						list.add(shape);
-						if (selShape.getShapesFromComp().size() == 1)
-							handler.setState(new OneSelectedState(handler, selShape.getShapesFromComp().get(0)));
+						if (selShape.getShapesFromComp().isEmpty())
+							handler.setState(new NoSelected(handler));
 					}
 
 			}

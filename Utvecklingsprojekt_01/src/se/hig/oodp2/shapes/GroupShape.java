@@ -6,7 +6,7 @@ import java.util.List;
 import java.util.Observable;
 import java.util.Observer;
 
-public class SelectedShapes implements Shape, Observer
+public class GroupShape implements Shape, Observer
 	{
 		private ShapeList<Shape> compList;
 		private double x = -1;
@@ -14,18 +14,17 @@ public class SelectedShapes implements Shape, Observer
 		private double w;
 		private double h;
 		private boolean isVisible = true;
-		private List<Shape> list = ShapeList.getInstance();
+		private SelectedShapes shapes = SelectedShapes.getInstance();
 
-		private static SelectedShapes selShape = new SelectedShapes();
-
-		public static SelectedShapes getInstance()
-			{
-				return selShape;
-			}
-
-		public SelectedShapes()
+		public GroupShape()
 			{
 				compList = new ShapeList<>();
+				List<Shape> selShapes = shapes.getShapesFromComp();
+				for (Shape s : selShapes)
+					{
+						compList.add(s);
+					}
+				selShapes.clear();
 
 			}
 
@@ -38,9 +37,9 @@ public class SelectedShapes implements Shape, Observer
 
 				if (!compList.isEmpty())
 					{
+						g.setColor(Color.blue);
 						new Line(x, y, (x + w), y).draw(g);
 						new Line(x, y, x, (y + h)).draw(g);
-						g.setColor(Color.red);
 
 					}
 			}
@@ -112,14 +111,14 @@ public class SelectedShapes implements Shape, Observer
 		public int getWidth()
 			{
 				// TODO Auto-generated method stub
-				return 0;
+				return (int) w;
 			}
 
 		@Override
 		public int getHeight()
 			{
 				// TODO Auto-generated method stub
-				return 0;
+				return (int) h;
 			}
 
 		@Override
@@ -180,9 +179,9 @@ public class SelectedShapes implements Shape, Observer
 			}
 
 
-		public void addShape(Shape s)
+
+		public void selectShape(Shape s)
 			{
-				list.remove(s);
 				compList.add(s);
 				setX(s.getX());
 				setY(s.getY());
@@ -190,7 +189,7 @@ public class SelectedShapes implements Shape, Observer
 
 			}
 
-		public void removeShape(Shape s)
+		public void deselect(Shape s)
 			{
 				compList.remove(s);
 				if (!compList.isEmpty())
@@ -202,8 +201,6 @@ public class SelectedShapes implements Shape, Observer
 					}
 				else
 					setSize(0, 0);
-
-			list.add(s);
 			}
 
 		public String toString()
@@ -244,10 +241,8 @@ public class SelectedShapes implements Shape, Observer
 				// TODO Auto-generated method stub
 				return isVisible;
 			}
-
-		public void clear()
-			{
-				compList.clear();
-			}
+		public void clear(){
+			compList.clear();
+		}
 
 	}

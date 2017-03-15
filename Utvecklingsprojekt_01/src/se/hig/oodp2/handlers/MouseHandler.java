@@ -189,10 +189,10 @@ public class MouseHandler extends Observable implements MouseListener, MouseMoti
 				if (selected == null)
 					selectState.deSelect();
 
-				else if (selected != null && selectState.isSelected(selected))
-					{
-						// deSelectShape(selected);
-					}
+//				else if (selected != null && selectState.isSelected(selected))
+//					{
+//						// deSelectShape(selected);
+//					}
 
 				else
 					{
