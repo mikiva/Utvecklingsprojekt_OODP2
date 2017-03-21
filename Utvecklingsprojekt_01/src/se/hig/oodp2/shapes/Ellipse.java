@@ -2,10 +2,15 @@ package se.hig.oodp2.shapes;
 
 import java.awt.Color;
 import java.awt.Graphics;
+import java.io.Serializable;
 
-public class Ellipse implements Shape
+public class Ellipse implements Shape, Serializable
 	{
 
+		/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 		private double x;
 		private double y;
 		private double dx;
@@ -16,7 +21,6 @@ public class Ellipse implements Shape
 		private int xmax;
 		private int ymax;
 		private Color color;
-		private double[] moveCoor = new double[2];
 		private boolean isVisible = true;
 
 		public Ellipse(double x, double y)
@@ -24,6 +28,9 @@ public class Ellipse implements Shape
 				this.x = x;
 				this.y = y;
 				this.color = Color.green;
+				
+				this.dx = (Math.random()*(-0.5*10));
+				this.dy = (Math.random()*(-0.5*10));
 
 			}
 
@@ -125,12 +132,6 @@ public class Ellipse implements Shape
 			}
 
 		@Override
-		public double[] getShapeMeta()
-			{
-				return new double[] { dx, dy, w, h };
-			}
-
-		@Override
 		public void setX(double x)
 			{
 				this.x = x;
@@ -163,6 +164,13 @@ public class Ellipse implements Shape
 			{
 
 				return isVisible;
+			}
+
+		@Override
+		public void setColor()
+			{
+				setColor(Color.green);
+				
 			}
 
 	}

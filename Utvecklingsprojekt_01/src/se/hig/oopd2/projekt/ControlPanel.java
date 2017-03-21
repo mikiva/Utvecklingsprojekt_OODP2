@@ -4,6 +4,7 @@ import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.IOException;
 
 import javax.swing.JPanel;
 import javax.swing.JTextArea;
@@ -17,7 +18,7 @@ import se.hig.oodp2.states.LineState;
 import se.hig.oodp2.states.RectangleState;
 import se.hig.oodp2.states.StickManState;
 
-public class ControlPanel extends JPanel
+public class ControlPanel extends JPanel 
 	{
 		/**
 		* 
@@ -26,7 +27,7 @@ public class ControlPanel extends JPanel
 		DrawPanel drawPanel;
 		CommandStack commands;
 
-		ControlPanel()
+		ControlPanel() throws IOException
 			{
 				super();
 
@@ -34,34 +35,34 @@ public class ControlPanel extends JPanel
 
 				commands = CommandStack.getInstance();
 				GridBagConstraints c = new GridBagConstraints();
-				Button1 but1 = new Button1("Circle");
-				c.fill = GridBagConstraints.HORIZONTAL;
-				c.gridx = 0;
-				c.gridy = 0;
-				this.add(but1, c);
-				// setSize(100, 100);
-
-				Button1 but2 = new Button1("Rectangle");
-				c.fill = GridBagConstraints.HORIZONTAL;
-				c.gridx = 1;
-				c.gridy = 0;
-				this.add(but2, c);
-				// setSize(100, 100)
-
-				Button1 but3 = new Button1("Ellipse");
-				c.fill = GridBagConstraints.HORIZONTAL;
-				c.gridx = 2;
-				this.add(but3, c);
-
-				Button1 but4 = new Button1("Line");
-				c.fill = GridBagConstraints.HORIZONTAL;
-				c.gridx = 3;
-				this.add(but4, c);
-
-				Button1 but5 = new Button1("StickMan");
-				c.fill = GridBagConstraints.HORIZONTAL;
-				c.gridx = 4;
-				this.add(but5, c);
+//				ShapeButton but1 = new ShapeButton("circle");
+//				c.fill = GridBagConstraints.HORIZONTAL;
+//				c.gridx = 0;
+//				c.gridy = 0;
+//				this.add(but1, c);
+//				// setSize(100, 100);
+//
+//				ShapeButton but2 = new ShapeButton("rectangle");
+//				c.fill = GridBagConstraints.HORIZONTAL;
+//				c.gridx = 1;
+//				c.gridy = 0;
+//				this.add(but2, c);
+//				// setSize(100, 100)
+//
+//				ShapeButton but3 = new ShapeButton("ellipse");
+//				c.fill = GridBagConstraints.HORIZONTAL;
+//				c.gridx = 2;
+//				this.add(but3, c);
+//
+//				ShapeButton but4 = new ShapeButton("line");
+//				c.fill = GridBagConstraints.HORIZONTAL;
+//				c.gridx = 3;
+//				this.add(but4, c);
+//
+//				ShapeButton but5 = new ShapeButton("stickMan");
+//				c.fill = GridBagConstraints.HORIZONTAL;
+//				c.gridx = 4;
+//				this.add(but5, c);
 
 				Button1 undoB = new Button1("Undo");
 				c.gridy = 1;
@@ -92,6 +93,21 @@ public class ControlPanel extends JPanel
 				c.gridy = 1;
 				c.gridx = 6;
 				this.add(groupB, c);
+				
+				Button1 unGroupB = new Button1("Ungroup");
+				c.gridy = 1;
+				c.gridx = 7;
+				this.add(unGroupB, c);
+				
+				Button1 saveShapesB = new Button1("Save Shapes");
+				c.gridy = 1;
+				c.gridx = 8;
+				this.add(saveShapesB, c);
+				
+				Button1 saveImageB = new Button1("Save Image");
+				c.gridy = 1;
+				c.gridx = 9;
+				this.add(saveImageB, c);
 
 				JTextArea status = new JTextArea();
 				c.gridx = 0;
@@ -99,62 +115,64 @@ public class ControlPanel extends JPanel
 				this.add(status, c);
 				status.setText("Circle");
 				
+				
+				
 
-				but1.addActionListener(new ActionListener()
-					{
-
-						@Override
-						public void actionPerformed(ActionEvent e)
-							{
-								drawPanel.setShapeState(new CircleState());
-								status.setText("Circle");
-								repaint();
-							}
-					});
-				but2.addActionListener(new ActionListener()
-					{
-
-						@Override
-						public void actionPerformed(ActionEvent e)
-							{
-								drawPanel.setShapeState(new RectangleState());
-								status.setText("Rectangle");
-								repaint();
-							}
-					});
-				but3.addActionListener(new ActionListener()
-					{
-
-						@Override
-						public void actionPerformed(ActionEvent e)
-							{
-								drawPanel.setShapeState(new EllipseState());
-								status.setText("Ellipse");
-								repaint();
-							}
-					});
-				but4.addActionListener(new ActionListener()
-					{
-
-						@Override
-						public void actionPerformed(ActionEvent e)
-							{
-								drawPanel.setShapeState(new LineState());
-								status.setText("Line");
-								repaint();
-							}
-					});
-				but5.addActionListener(new ActionListener()
-					{
-
-						@Override
-						public void actionPerformed(ActionEvent e)
-							{
-								drawPanel.setShapeState(new StickManState());
-								status.setText("Stick Man");
-								repaint();
-							}
-					});
+//				but1.addActionListener(new ActionListener()
+//					{
+//
+//						@Override
+//						public void actionPerformed(ActionEvent e)
+//							{
+//								drawPanel.setShapeState(new CircleState());
+//								status.setText("Circle");
+//								repaint();
+//							}
+//					});
+//				but2.addActionListener(new ActionListener()
+//					{
+//
+//						@Override
+//						public void actionPerformed(ActionEvent e)
+//							{
+//								drawPanel.setShapeState(new RectangleState());
+//								status.setText("Rectangle");
+//								repaint();
+//							}
+//					});
+//				but3.addActionListener(new ActionListener()
+//					{
+//
+//						@Override
+//						public void actionPerformed(ActionEvent e)
+//							{
+//								drawPanel.setShapeState(new EllipseState());
+//								status.setText("Ellipse");
+//								repaint();
+//							}
+//					});
+//				but4.addActionListener(new ActionListener()
+//					{
+//
+//						@Override
+//						public void actionPerformed(ActionEvent e)
+//							{
+//								drawPanel.setShapeState(new LineState());
+//								status.setText("Line");
+//								repaint();
+//							}
+//					});
+//				but5.addActionListener(new ActionListener()
+//					{
+//
+//						@Override
+//						public void actionPerformed(ActionEvent e)
+//							{
+//								drawPanel.setShapeState(new StickManState());
+//								status.setText("Stick Man");
+//								repaint();
+//							}
+//					});
 				undoB.addActionListener(new ActionListener()
 					{
 
@@ -196,7 +214,7 @@ public class ControlPanel extends JPanel
 						public void actionPerformed(ActionEvent e)
 							{
 
-								drawPanel.duplicate();
+							//	drawPanel.duplicate();
 								
 
 								repaint();
@@ -228,7 +246,40 @@ public class ControlPanel extends JPanel
 								
 							}
 					});
+				unGroupB.addActionListener(new ActionListener()
+					{
+						
+						@Override
+						public void actionPerformed(ActionEvent e)
+							{
+								drawPanel.unGroup();
+								repaint();
+								
+							}
+					});
 
+				saveShapesB.addActionListener(new ActionListener()
+					{
+						
+						@Override
+						public void actionPerformed(ActionEvent e)
+							{
+								drawPanel.saveShape();
+								repaint();
+								
+							}
+					});
+				saveImageB.addActionListener(new ActionListener()
+					{
+						
+						@Override
+						public void actionPerformed(ActionEvent e)
+							{
+								drawPanel.saveImage();
+								repaint();
+								
+							}
+					});
 			}
 
 		public void setDrawPanel(DrawPanel d)

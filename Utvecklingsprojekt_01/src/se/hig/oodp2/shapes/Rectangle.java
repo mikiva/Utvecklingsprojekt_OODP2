@@ -1,11 +1,17 @@
 package se.hig.oodp2.shapes;
 
+import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Graphics;
+import java.awt.Graphics2D;
 
 public class Rectangle implements Shape
 	{
 
+		/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 		private double x;
 		private double y;
 		private double dx;
@@ -52,11 +58,13 @@ public class Rectangle implements Shape
 		public void draw(Graphics g)
 			{
 
-				g.setColor(color);
-				g.drawLine((int) x1, (int) y1, (int) (x2), (int) (y1)); // top
-				g.drawLine((int) (x2), (int) y1, (int) (x2), (int) (y2)); // right
-				g.drawLine((int) (x1), (int) (y2), (int) (x2), (int) (y2)); // bottom
-				g.drawLine((int) (x1), (int) (y1), (int) (x1), (int) (y2)); // left
+				Graphics2D g2 = (Graphics2D)g;
+				g2.setStroke(new BasicStroke());
+				g2.setColor(color);
+				g2.drawLine((int) x1, (int) y1, (int) (x2), (int) (y1)); // top
+				g2.drawLine((int) (x2), (int) y1, (int) (x2), (int) (y2)); // right
+				g2.drawLine((int) (x1), (int) (y2), (int) (x2), (int) (y2)); // bottom
+				g2.drawLine((int) (x1), (int) (y1), (int) (x1), (int) (y2)); // left
 
 				// g.fillRect((int) x, (int) y, (int) (w), (int) (h));
 
@@ -178,12 +186,7 @@ public class Rectangle implements Shape
 				// TODO Auto-generated method stub
 				
 			}
-		@Override
-		public double[] getShapeMeta()
-			{
-				// TODO Auto-generated method stub
-				return null;
-			}
+
 
 		@Override
 		public void toggleVisible()
@@ -196,6 +199,12 @@ public class Rectangle implements Shape
 			{
 				// TODO Auto-generated method stub
 				return isVisible;
+			}
+		@Override
+		public void setColor()
+			{
+				setColor(Color.blue);
+				
 			}
 
 	}

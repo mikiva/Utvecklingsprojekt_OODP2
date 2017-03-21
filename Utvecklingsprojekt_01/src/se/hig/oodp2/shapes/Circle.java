@@ -6,6 +6,10 @@ import java.awt.Graphics;
 public class Circle implements Shape
 	{
 
+		/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 		private double x;
 		private double y;
 		private double dx;
@@ -13,10 +17,9 @@ public class Circle implements Shape
 		private double radius;
 		private double w;
 		private double h;
-		private int xmax;
-		private int ymax;
+
 		private Color color;
-		private double[] moveCoor = new double[2];
+
 		private boolean isVisible = true;
 
 		public Circle(double x, double y, double w, double h)
@@ -70,7 +73,8 @@ public class Circle implements Shape
 		@Override
 		public void move(int x, int y)
 			{
-
+				System.out.println(x + "  " + y);
+				
 				this.x = x;
 				this.y = y;
 				/*
@@ -147,12 +151,6 @@ public class Circle implements Shape
 				
 			}
 
-		@Override
-		public double[] getShapeMeta()
-			{
-				// TODO Auto-generated method stub
-				return null;
-			}
 
 
 
@@ -168,6 +166,13 @@ public class Circle implements Shape
 			{
 				// TODO Auto-generated method stub
 				return isVisible;
+			}
+
+		@Override
+		public void setColor()
+			{
+				setColor(Color.yellow);
+				
 			}
 
 	}

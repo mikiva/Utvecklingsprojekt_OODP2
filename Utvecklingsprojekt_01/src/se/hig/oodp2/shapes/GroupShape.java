@@ -1,13 +1,20 @@
 package se.hig.oodp2.shapes;
 
+import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Graphics;
+import java.awt.Graphics2D;
+import java.io.Serializable;
 import java.util.List;
 import java.util.Observable;
 import java.util.Observer;
 
-public class GroupShape implements Shape, Observer
+public class GroupShape implements Shape, Observer, Serializable
 	{
+		/**
+		* 
+		*/
+		private static final long serialVersionUID = 1L;
 		private ShapeList<Shape> compList;
 		private double x = -1;
 		private double y = -1;
@@ -15,6 +22,8 @@ public class GroupShape implements Shape, Observer
 		private double h;
 		private boolean isVisible = true;
 		private SelectedShapes shapes = SelectedShapes.getInstance();
+		private List<Shape> list = ShapeList.getInstance();
+		private Color color;
 
 		public GroupShape()
 			{
@@ -26,20 +35,31 @@ public class GroupShape implements Shape, Observer
 					}
 				selShapes.clear();
 
+				setX(0);
+				setY(0);
+				setSize(0, 0);
+
 			}
 
 		@Override
 		public void draw(Graphics g)
 			{
+				
 
-				for (Shape s : compList)
+				for (Shape s : compList){
+				s.setColor(Color.pink);
 					s.draw(g);
+				}
 
 				if (!compList.isEmpty())
 					{
-						g.setColor(Color.blue);
-						new Line(x, y, (x + w), y).draw(g);
-						new Line(x, y, x, (y + h)).draw(g);
+						Graphics2D g2 = (Graphics2D)g;
+						g2.setStroke(new BasicStroke(1));
+						g2.setColor(Color.black);
+						g2.drawLine((int)x, (int)y, (int)(x+w), (int)y);
+						g2.drawLine((int)x, (int)y, (int)(x), (int)(y+h));
+//						new Line(x, y, (x + w), y).draw(g);
+//						new Line(x, y, x, (y + h)).draw(g);
 
 					}
 			}
@@ -124,7 +144,7 @@ public class GroupShape implements Shape, Observer
 		@Override
 		public void setColor(Color c)
 			{
-				// TODO Auto-generated method stub
+				this.color = c;
 
 			}
 
@@ -138,13 +158,6 @@ public class GroupShape implements Shape, Observer
 		public int getY()
 			{
 				return (int) y;
-			}
-
-		@Override
-		public double[] getShapeMeta()
-			{
-
-				return null;
 			}
 
 		@Override
@@ -178,43 +191,35 @@ public class GroupShape implements Shape, Observer
 
 			}
 
-
-
 		public void selectShape(Shape s)
 			{
 				compList.add(s);
-				setX(s.getX());
-				setY(s.getY());
-				setSize(s.getX(), s.getY());
 
 			}
 
-		public void deselect(Shape s)
+		public void unGroup()
 			{
-				compList.remove(s);
-				if (!compList.isEmpty())
+				for (Shape s : compList)
 					{
-						Shape t = compList.get(compList.size() - 1);
-						setX(t.getX());
-						setY(t.getY());
-						setSize(t.getX(), t.getY());
+						s.setColor();
+						list.add(s);
 					}
-				else
-					setSize(0, 0);
+
+				clear();
+
 			}
 
 		public String toString()
 			{
 
 				StringBuilder str = new StringBuilder();
+				int i = 1;
 				for (Shape s : compList)
 					{
-						str.append(s.toString() + " \n");
+						str.append(i++ + " " + s.toString() + " \n");
 					}
 				return str.toString();
 			}
-
-
 
 		public List<Shape> getShapesFromComp()
 			{
@@ -241,8 +246,17 @@ public class GroupShape implements Shape, Observer
 				// TODO Auto-generated method stub
 				return isVisible;
 			}
-		public void clear(){
-			compList.clear();
-		}
+
+		public void clear()
+			{
+				compList.clear();
+			}
+
+		@Override
+		public void setColor()
+			{
+				// TODO Auto-generated method stub
+
+			}
 
 	}

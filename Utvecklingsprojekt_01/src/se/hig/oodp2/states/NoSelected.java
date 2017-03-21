@@ -18,6 +18,7 @@ public class NoSelected implements SelectedState
 		public void select(Shape s)
 			{
 				handler.setState(new SelectedShapesState(handler, s));
+				
 
 			}
 

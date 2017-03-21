@@ -2,19 +2,20 @@ package se.hig.oopd2.projekt;
 
 import java.awt.BasicStroke;
 import java.awt.Color;
+import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.util.List;
 import java.util.Observable;
 import java.util.Observer;
 
+import javax.swing.BorderFactory;
 import javax.swing.JPanel;
 
-import se.hig.oodp2.commands.Clear;
+import Menus.ShapeMenu;
+import se.hig.oodp2.commands.Reset;
 import se.hig.oodp2.commands.CommandStack;
-import se.hig.oodp2.commands.Create;
 import se.hig.oodp2.commands.Delete;
-import se.hig.oodp2.commands.Group;
 import se.hig.oodp2.handlers.MouseHandler;
 import se.hig.oodp2.shapes.GroupShape;
 import se.hig.oodp2.shapes.SelectedShapes;
@@ -26,6 +27,10 @@ import se.hig.oodp2.states.ShapeState;
 public class DrawPanel extends JPanel implements Observer
 	{
 
+		/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 		private ShapeList<Shape> list;
 		private int mX;
 		private int mY;
@@ -40,14 +45,24 @@ public class DrawPanel extends JPanel implements Observer
 		private Shape tempShape;
 		private LayerPanel layerPanel;
 		private SelectedShapes selShape = SelectedShapes.getInstance();
+		private OpenObject openObj;
+		private static DrawPanel panel = new DrawPanel();
+		private static ShapeMenu shapeMenu = ShapeMenu.getInstance();
 
-		public DrawPanel(LayerPanel lp)
+		public static DrawPanel getInstance()
+			{
+				return panel;
+			}
+
+		public DrawPanel()
 			{
 
 				super();
-				layerPanel = lp;
+
 				list = ShapeList.getInstance();
 				setBackground(Color.gray);
+				setPreferredSize(new Dimension(800, 600));
+				//setBorder(BorderFactory.createBevelBorder(12));
 				MouseHandler handler = new MouseHandler(this);
 				new Thread(new Mover()).start();
 				addMouseListener(handler);
@@ -55,6 +70,7 @@ public class DrawPanel extends JPanel implements Observer
 				shapeState = new CircleState();
 				selList = new ShapeList<>();
 				commands = CommandStack.getInstance();
+				openObj = OpenObject.getInstance();
 
 			}
 
@@ -110,7 +126,6 @@ public class DrawPanel extends JPanel implements Observer
 		public void addToList(Shape s)
 			{
 				list.add(s);
-				layerPanel.updateLayers();
 			}
 
 		public void drawDyn(Shape s, int x, int y)
@@ -132,44 +147,6 @@ public class DrawPanel extends JPanel implements Observer
 
 				return found;
 			}
-
-		public void selectedShape(Shape s)
-			{
-				selList.add(s);
-			}
-
-		public List<Shape> getSelList()
-			{
-				return selList;
-			}
-
-		public void clearSelList()
-			{
-				selList.clear();
-			}
-
-		public void duplicate()
-			{
-				if (selList.isEmpty())
-					return;
-
-				for (Shape tempShape : selList)
-					{
-
-						int w = tempShape.getWidth();
-						int h = tempShape.getHeight();
-						Shape s = createShape(100, 100, w, h);
-
-						commands.doCommand(new Create(s, this));
-
-						s.toString();
-						repaint();
-					}
-
-				clearSelList();
-
-			}
-
 		public void delete()
 			{
 
@@ -184,21 +161,58 @@ public class DrawPanel extends JPanel implements Observer
 
 		public void clear()
 			{
-				commands.doCommand(new Clear());
-				layerPanel.updateLayers();
+				commands.doCommand(new Reset());
+
 				// list.clear();
 			}
 
 		public void remove(Shape s)
 			{
 				list.remove(s);
-				layerPanel.updateLayers();
 			}
 
 		public void setCommandStack(CommandStack commands)
 			{
 				this.commands = commands;
 			}
+
+		public void unGroup()
+			{
+
+				selShape.unGroup();
+			}
+
+		public void saveShape()
+			{
+
+				List<Shape> sL = selShape.getShapesFromComp();
+
+				if (sL.size() == 1)
+					{
+						if (sL.get(0) instanceof GroupShape)
+							new WriteObject((GroupShape) sL.get(0));
+					}
+
+				shapeMenu.fillMenu();
+			}
+		
+		public void saveImage()
+			{
+				
+				new WriteImage(list);
+				
+			}
+
+		public void open()
+			{
+				// OpenObject oo = new OpenObject();
+			for(Shape sh : list)
+				System.out.println(sh.toString());
+			}
+		public void clearSelected(){
+			selShape.clear();
+		}
+		
 
 		private class Mover implements Runnable
 			{
@@ -223,8 +237,8 @@ public class DrawPanel extends JPanel implements Observer
 								if (getHeight() > 0)
 									movY = (movY + 1) % getHeight();
 
-								// for(Shape c : list)
-								// c.move();
+//								 for(Shape c : list)
+//								 c.move();
 
 								repaint();
 							}
@@ -235,10 +249,12 @@ public class DrawPanel extends JPanel implements Observer
 		@Override
 		public void update(Observable o, Object arg)
 			{
-				System.out.println("update");
+			//	System.out.println("update");
 
 				repaint();
 
 			}
+
+
 
 	}

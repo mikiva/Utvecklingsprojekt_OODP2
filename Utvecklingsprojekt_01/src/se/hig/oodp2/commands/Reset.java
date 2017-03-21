@@ -2,16 +2,21 @@ package se.hig.oodp2.commands;
 
 import java.util.List;
 
+import se.hig.oodp2.shapes.GroupShape;
+import se.hig.oodp2.shapes.SelectedShapes;
 import se.hig.oodp2.shapes.Shape;
 import se.hig.oodp2.shapes.ShapeList;
 
-public class Clear implements Command
+public class Reset implements Command
 	{
 		List<Shape> list;
 		List<Shape> tempList;
+		GroupShape gShape;
+		SelectedShapes selShape;
 
-		public Clear()
+		public Reset()
 			{
+				selShape = SelectedShapes.getInstance();
 				this.list = ShapeList.getInstance();
 				tempList = new ShapeList<>();
 			}
@@ -22,6 +27,7 @@ public class Clear implements Command
 				for(Shape s : list)
 					tempList.add(s);
 				
+				selShape.delete();
 				list.clear();
 
 			}

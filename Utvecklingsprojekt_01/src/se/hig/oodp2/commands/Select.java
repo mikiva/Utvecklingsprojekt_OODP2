@@ -10,16 +10,16 @@ public class Select implements Command
 		Shape shape;
 		MouseHandler handler;
 		SelectedShapes shapes = SelectedShapes.getInstance();
-		public Select(Shape s, MouseHandler handler){
+		public Select(Shape s){
 			this.shape = s;
-			this.handler = handler;
+			//this.handler = handler;
 		}
 
 	@Override
 	public void execute()
 		{
 			
-			shapes.addShape(shape);
+			shapes.selectShape(shape);
 			
 			
 		}
@@ -27,7 +27,9 @@ public class Select implements Command
 	@Override
 	public void undo()
 		{
-			shapes.removeShape(shape);
+			
+			System.out.println("Undo select");
+			shapes.deselectShape(shape);
 			
 		}
 

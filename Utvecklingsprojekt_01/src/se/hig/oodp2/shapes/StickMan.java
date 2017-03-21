@@ -6,6 +6,11 @@ import java.awt.Graphics;
 public class StickMan implements Shape
 	{
 
+
+		/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 		private double x;
 		private double y;
 		private double dx;
@@ -34,6 +39,7 @@ public class StickMan implements Shape
 
 				this.dx = (Math.random() - 0.5) * 10;
 				this.dy = (Math.random() - 0.5) * 10;
+				setColor(Color.black);
 
 			}
 
@@ -49,13 +55,14 @@ public class StickMan implements Shape
 
 				this.dx = (Math.random() - 0.5) * 10;
 				this.dy = (Math.random() - 0.5) * 10;
+				setColor(Color.black);
 
 			}
 
 		@Override
 		public void draw(Graphics g)
 			{
-				g.setColor(color);
+				//g.setColor(color);
 				// g.drawOval((int)(x1), (int)y1, (int)((w)/4), (int)((w)/4));
 				// g.drawLine((int)(x1+(w/8)), (int)(y1+(this.w/4)),
 				// (int)((x1+(w/8))), (int)(y2+ (w/2)));
@@ -69,9 +76,9 @@ public class StickMan implements Shape
 //																												// leg
 //				g.drawLine((int) (x1 + (w / 2)), (int) (y1 + (h*0.8)), (int) (x1 + w), (int) (y1 + h)); // right
 //																													// leg
-				g.setColor(Color.red);
-				g.drawLine((int)x1, (int)y1, (int)x1, (int)(y1+h));
-				g.drawLine((int)x1, (int)y1, (int)(x1+w), (int)(y1));
+				//g.setColor(Color.red);
+//				g.drawLine((int)x1, (int)y1, (int)x1, (int)(y1+h));
+//				g.drawLine((int)x1, (int)y1, (int)(x1+w), (int)(y1));
 				
 				
 				new Circle(x1 + w/6, y1, (2*(w/3)), 2*(w/3)).draw(g); //head
@@ -172,12 +179,7 @@ public class StickMan implements Shape
 				return (int) this.y1;
 			}
 
-		@Override
-		public double[] getShapeMeta()
-			{
-				// TODO Auto-generated method stub
-				return new double[]{x1, y1, w, h};
-			}
+
 
 		@Override
 		public void setX(double x)
@@ -207,6 +209,13 @@ public class StickMan implements Shape
 			{
 				// TODO Auto-generated method stub
 				return isVisible;
+			}
+
+		@Override
+		public void setColor()
+			{
+				setColor(Color.black);
+				
 			}
 
 	}

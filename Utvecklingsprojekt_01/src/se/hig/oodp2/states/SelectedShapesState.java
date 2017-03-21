@@ -2,6 +2,8 @@ package se.hig.oodp2.states;
 
 import java.util.List;
 
+import se.hig.oodp2.commands.CommandStack;
+import se.hig.oodp2.commands.Select;
 import se.hig.oodp2.handlers.MouseHandler;
 import se.hig.oodp2.shapes.SelectedShapes;
 import se.hig.oodp2.shapes.Shape;
@@ -13,6 +15,7 @@ public class SelectedShapesState implements SelectedState
 		private SelectedShapes selShape;
 		private MouseHandler handler;
 		private ShapeList<Shape> list;
+		private CommandStack commands = CommandStack.getInstance();
 
 		public SelectedShapesState(MouseHandler handler, Shape shap)
 			{
@@ -28,7 +31,7 @@ public class SelectedShapesState implements SelectedState
 		public void select(Shape s)
 			{
 
-				selShape.addShape(s);
+				commands.doCommand(new Select(s));
 				list.remove(s);
 				list.add(selShape);
 
@@ -69,7 +72,7 @@ public class SelectedShapesState implements SelectedState
 					}
 				if (shape != null)
 					{
-						selShape.removeShape(shape);
+						selShape.deselectShape(shape);
 						list.add(shape);
 						if (selShape.getShapesFromComp().isEmpty())
 							handler.setState(new NoSelected(handler));

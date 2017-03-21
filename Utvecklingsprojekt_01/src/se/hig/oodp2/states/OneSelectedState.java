@@ -19,7 +19,7 @@ public class OneSelectedState implements SelectedState
 				this.handler = handler;
 				list = ShapeList.getInstance();
 				this.selShape = SelectedShapes.getInstance();
-				selShape.addShape(s);
+				selShape.selectShape(s);
 				selShape.setSize(s.getWidth(), s.getHeight());
 				list.remove(s);
 				list.add(selShape);

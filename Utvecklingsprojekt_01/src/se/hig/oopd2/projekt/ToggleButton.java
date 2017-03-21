@@ -11,6 +11,10 @@ import se.hig.oodp2.shapes.Shape;
 public class ToggleButton extends JButton
 	{
 
+		/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 		private Shape shape;
 
 		public ToggleButton(String text, Shape s)

@@ -8,6 +8,12 @@ import javax.swing.JButton;
 
 public class Button1 extends JButton
 	{
+		/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+
+
 		public Button1()
 			{
 				this("Button");

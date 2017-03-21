@@ -1,5 +1,6 @@
 package se.hig.oodp2.commands;
 
+import java.util.LinkedList;
 import java.util.List;
 
 import se.hig.oodp2.shapes.GroupShape;
@@ -37,10 +38,21 @@ public class Group implements Command
 		@Override
 		public void undo()
 			{
-				for (Shape s : compList)
-					shapes.addShape(s);
+				
+				new Ungroup(group).execute();
+				
+//				List<Shape> tempList = new LinkedList<>();
+//				
+//				for(Shape s : group.getShapesFromComp())
+//					tempList.add(s);
+//				
+//				for(Shape s: tempList){
+//					shapes.selectShape(s);
+//				s.setColor();
+//				}
+//
+//				list.remove(group);
 
-				group.clear();
 
 			}
 

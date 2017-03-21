@@ -28,7 +28,7 @@ public class Delete implements Command
 				for (Shape s : selShape.getShapesFromComp())
 					tempList.add(s);
 
-				selShape.clear();
+				selShape.delete();
 
 			}
 
@@ -36,7 +36,7 @@ public class Delete implements Command
 		public void undo()
 			{
 				for(Shape s : tempList)
-					selShape.addShape(s);
+					selShape.selectShape(s);
 
 			}
 

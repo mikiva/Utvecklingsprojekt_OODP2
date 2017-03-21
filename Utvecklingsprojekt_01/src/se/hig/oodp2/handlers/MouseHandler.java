@@ -27,7 +27,6 @@ public class MouseHandler extends Observable implements MouseListener, MouseMoti
 		private int mY;
 		int x = 0;
 		int y = 0;
-		
 
 		int x1 = 0;
 		int y1 = 0;
@@ -39,7 +38,7 @@ public class MouseHandler extends Observable implements MouseListener, MouseMoti
 		double meta[];
 		private SelectedState selectState;
 		private SelectedShapes selectedShape;
-	
+		private boolean hasDragged = false;
 
 		public MouseHandler(DrawPanel pan)
 			{
@@ -69,11 +68,11 @@ public class MouseHandler extends Observable implements MouseListener, MouseMoti
 				// (meta[1])));
 				// }
 				// }
-
+				hasDragged = true;
 				if (selectState.isSelected())
 					{
 						selectedShape.move((int) e.getX() - (x1), (int) e.getY() - (y1));
-
+						//System.out.println("dragged");
 						// selectedShape.setMoveCoor(e.getX(), e.getY());
 						// selectedShape.move((int) e.getX(), (int) e.getY());
 
@@ -155,44 +154,10 @@ public class MouseHandler extends Observable implements MouseListener, MouseMoti
 		public void mousePressed(MouseEvent e)
 			{
 
-				// selected = panel.isShapeSelected(e.getX(), e.getY());
-				// if (selected != null)
-				// {
-				// fromX = selected.getX();
-				// fromY = selected.getY();
-				//
-				// selectedShape.setMoveCoor(e.getX(), e.getY());
-				// // x1 = e.getX() - selected.getX();
-				// // y1 = e.getY() - selected.getY();
-				// }
-
-				// if (panel.getSelList().isEmpty())
-				// selected = panel.isShapeSelected(e.getX(), e.getY());
-				//
-				// else
-				// {
-				// for (Shape s : panel.getSelList())
-				// {
-				// fromX = s.getX();
-				// fromY = s.getY();
-				// System.out.println("found");
-				// s.setX(e.getX() - s.getX());
-				// s.setY(e.getY() - s.getY());
-				// meta = s.getShapeMeta();
-				// }
-				// }
-
-				// selected = panel.isShapeSelected(e.getX(), e.getY());
-
 				selected = panel.isShapeSelected(e.getX(), e.getY());
 
 				if (selected == null)
 					selectState.deSelect();
-
-//				else if (selected != null && selectState.isSelected(selected))
-//					{
-//						// deSelectShape(selected);
-//					}
 
 				else
 					{
@@ -204,38 +169,24 @@ public class MouseHandler extends Observable implements MouseListener, MouseMoti
 							{
 								deSelectShape(e.getX(), e.getY());
 							}
+						else if(!(selected instanceof SelectedShapes) && e.isControlDown())
+							{
+								selectedShape.clear();
+								selectShape(selected);
+							}
 
 						panel.repaint();
 
-						// commands.doCommand(new Select(selected, this));
-
-						// selectedShape.setX(selected.getX());
-						// selectedShape.setY(selected.getY());
-						//
 						if (selectedShape != null)
 							{
 								fromX = selectedShape.getX();
 								fromY = selectedShape.getY();
 
-								// selectedShape.setMoveCoor(e.getX(),
-								// e.getY());
 								x1 = e.getX() - selectedShape.getX();
 								y1 = e.getY() - selectedShape.getY();
-								// System.out.println(selectedShape.toString() +
-								// "Selected");
+
 							}
 					}
-
-				// if (selectedShape != null)
-				// {
-				// fromX = selectedShape.getX();
-				// fromY = selectedShape.getY();
-				//
-				// selectedShape.setMoveCoor(e.getX(), e.getY());
-				// x1 = e.getX() - selectedShape.getX();
-				// y1 = e.getY() - selectedShape.getY();
-				//
-				// }
 
 				if (selected == null)
 					{
@@ -248,12 +199,7 @@ public class MouseHandler extends Observable implements MouseListener, MouseMoti
 						s = panel.createShape(x, y);
 
 						commands.doCommand(new Create(s, panel));
-						// c1 = new Circle(x, y, mX, mX);
 
-						// else
-						// c1 = new Circle(x, y, Math.abs(mX), Math.abs(mY));
-
-						// list.add(c1);
 					}
 
 			}
@@ -266,34 +212,19 @@ public class MouseHandler extends Observable implements MouseListener, MouseMoti
 				if (s != null)
 					{
 						s.setSize(mX, mY);
-						// panel.addToList(s);
 
 						System.out.println(s.toString());
 					}
-				if (selected != null)
+				if (selected != null && hasDragged)
 					{
 						commands.doCommand(new Move(fromX, fromY, selected.getX(), selected.getY(), selected));
 					}
 
-				int length = (int) Math.sqrt((Math.pow(mX, 2) + Math.pow(mY, 2)));
-
-				// if (selected == null)
-				// {
-				// panel.createShape(x, y, mX, mY);
-				// //c1 = new Circle(x, y, mX, mX);
-				//
-				// // else
-				// // c1 = new Circle(x, y, Math.abs(mX), Math.abs(mY));
-				//
-				// //list.add(c1);
-				// }
-
-				// System.out.println(length);
-				// selected = null;
 				s = null;
 				setChanged();
 				notifyObservers();
 				panel.repaint();
+				hasDragged = false;
 
 			}
 
@@ -327,16 +258,15 @@ public class MouseHandler extends Observable implements MouseListener, MouseMoti
 						selectState.select(s);
 						selectedShape = selectState.getSelected();
 					}
-				// System.out.println(selectedShape.toString() + " ellipse");
+
 				panel.repaint();
 			}
 
 		public void deSelectShape(int x, int y)
 			{
-				
+
 				selectState.deSelect(x, y);
-				
-				//selectState.deSelect(s);
+
 				selectedShape = selectState.getSelected();
 				panel.repaint();
 			}
@@ -346,8 +276,4 @@ public class MouseHandler extends Observable implements MouseListener, MouseMoti
 				selectState = state;
 			}
 
-		public void setNullObject()
-			{
-				List<Shape> l = selectedShape.getShapesFromComp();
-			}
 	}

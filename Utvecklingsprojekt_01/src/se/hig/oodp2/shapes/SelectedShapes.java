@@ -1,13 +1,21 @@
 package se.hig.oodp2.shapes;
 
+import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Graphics;
+import java.awt.Graphics2D;
+import java.io.Serializable;
 import java.util.List;
 import java.util.Observable;
 import java.util.Observer;
 
-public class SelectedShapes implements Shape, Observer
+public class SelectedShapes implements Shape, Observer, Serializable
 	{
+		/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+	
 		private ShapeList<Shape> compList;
 		private double x = -1;
 		private double y = -1;
@@ -38,9 +46,14 @@ public class SelectedShapes implements Shape, Observer
 
 				if (!compList.isEmpty())
 					{
-						new Line(x, y, (x + w), y).draw(g);
-						new Line(x, y, x, (y + h)).draw(g);
-						g.setColor(Color.red);
+						Graphics2D g2 = (Graphics2D) g;
+						g2.setColor(Color.pink);
+						g2.setStroke(new BasicStroke(1));
+						g2.drawLine((int)x, (int)y, (int)(x+w), (int)y);
+						g2.drawLine((int)x, (int)y, (int)x, (int)(y+h));
+//						new Line(x, y, (x + w), y).draw(g);
+//						new Line(x, y, x, (y + h)).draw(g);
+						
 
 					}
 			}
@@ -142,13 +155,6 @@ public class SelectedShapes implements Shape, Observer
 			}
 
 		@Override
-		public double[] getShapeMeta()
-			{
-
-				return null;
-			}
-
-		@Override
 		public void setX(double x)
 			{
 
@@ -179,31 +185,51 @@ public class SelectedShapes implements Shape, Observer
 
 			}
 
-
-		public void addShape(Shape s)
+		public void selectShape(Shape s)
 			{
+				if(list.contains(s))
 				list.remove(s);
 				compList.add(s);
-				setX(s.getX());
-				setY(s.getY());
-				setSize(s.getX(), s.getY());
+				this.x = (this.x > s.getX()) ? s.getX() : this.x;
+//				this.y = (this.y > s.getY()) ? s.getY() : this.y;
+				
+				setX(0);
+				setY(0);
+				
+//				setX(s.getX());
+//				setY(s.getY());
+				setSize(0,0);
 
 			}
 
-		public void removeShape(Shape s)
+		public void deselectShape(Shape s)
 			{
+				list.add(s);
 				compList.remove(s);
+			
 				if (!compList.isEmpty())
 					{
-						Shape t = compList.get(compList.size() - 1);
-						setX(t.getX());
-						setY(t.getY());
-						setSize(t.getX(), t.getY());
+//						System.out.println("deselect");
+//						setX(compList.get(0).getX());
+//						setY(compList.get(0).getY());
+//						for(Shape sh : compList){
+//						this.x = (this.x > sh.getX()) ? sh.getX() : this.x;
+//						this.y = (this.y > sh.getY()) ? sh.getX() : this.y;
+						setX(0);
+						setY(0);
+						
+//						}
+//						Shape t = compList.get(compList.size() - 1);
+//						setX(t.getX());
+//						setY(t.getY());
+//						setSize(t.getX(), t.getY());
+//						System.out.println("deselect");
 					}
 				else
 					setSize(0, 0);
 
-			list.add(s);
+				setSize(0,0);
+
 			}
 
 		public String toString()
@@ -216,8 +242,6 @@ public class SelectedShapes implements Shape, Observer
 					}
 				return str.toString();
 			}
-
-
 
 		public List<Shape> getShapesFromComp()
 			{
@@ -245,9 +269,36 @@ public class SelectedShapes implements Shape, Observer
 				return isVisible;
 			}
 
+		public void unGroup()
+			{
+
+				for (Shape s : compList)
+					{
+						System.out.println(s.getClass());
+						if (s instanceof GroupShape)
+							{
+								((GroupShape)s).unGroup();
+								delete();
+							}
+					}
+
+			}
+
 		public void clear()
 			{
+				for(Shape s: compList)
+					list.add(s);
 				compList.clear();
+			}
+		public void delete(){
+			compList.clear();
+		}
+
+		@Override
+		public void setColor()
+			{
+				// TODO Auto-generated method stub
+
 			}
 
 	}
