@@ -5,37 +5,34 @@ import se.hig.oodp2.shapes.SelectedShapes;
 import se.hig.oodp2.shapes.Shape;
 import se.hig.oodp2.states.SelectedState;
 
-public class Select implements Command
+public class Deselect implements Command
 	{
-		
-		Shape shape;
-		SelectedShapes shapes = SelectedShapes.getInstance();
+
+		SelectedShapes selShape = SelectedShapes.getInstance();
+		Shape tempShape;
 		SelectedState state;
 		MouseHandler handler;
 		
-		
-		public Select(Shape s, MouseHandler hand){
-			this.shape = s;
-			this.handler = hand;
+		public Deselect(MouseHandler han, Shape s){
+			this.tempShape = s;
+			this.handler = han;
 			this.state = handler.getSelectState();
 		}
-
+		
 	@Override
 	public void execute()
 		{
-			
-			shapes.selectShape(shape);
-			
+			selShape.deselectShape(tempShape);
 			
 		}
 
 	@Override
 	public void undo()
 		{
-			
-			System.out.println("Undo select");
-			shapes.deselectShape(shape);
+			selShape.selectShape(tempShape);
 			handler.setState(state);
+			
+			
 			
 		}
 

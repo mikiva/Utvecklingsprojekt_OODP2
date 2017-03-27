@@ -1,4 +1,4 @@
-package Menus;
+package se.hig.oodp2.menus;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -9,7 +9,7 @@ import javax.swing.JMenuItem;
 import se.hig.oodp2.commands.CommandStack;
 import se.hig.oodp2.commands.Delete;
 import se.hig.oodp2.commands.Group;
-import se.hig.oopd2.projekt.DrawPanel;
+import se.hig.oodp2.projekt.DrawPanel;
 
 public class EditMenu extends JMenu
 	{
@@ -27,6 +27,7 @@ public class EditMenu extends JMenu
 		private JMenuItem ungroup;
 		private JMenuItem saveShapes;
 		private JMenuItem saveImage;
+		private JMenuItem selectAll;
 
 		private CommandStack commands = CommandStack.getInstance();
 		private DrawPanel drawPanel = DrawPanel.getInstance();
@@ -48,6 +49,7 @@ public class EditMenu extends JMenu
 				ungroup = new JMenuItem("Ungroup");
 				saveShapes = new JMenuItem("Save Shapes");
 				saveImage = new JMenuItem("Save Image");
+				selectAll = new JMenuItem("Select All");
 
 				undo.addActionListener(new ActionListener()
 					{
@@ -83,20 +85,7 @@ public class EditMenu extends JMenu
 
 							}
 					});
-				// duplicateB.addActionListener(new ActionListener()
-				// {
-				//
-				// @Override
-				// public void actionPerformed(ActionEvent e)
-				// {
-				//
-				// // drawPanel.duplicate();
-				//
-				//
-				// repaint();
-				//
-				// }
-				// });
+
 				delete.addActionListener(new ActionListener()
 					{
 
@@ -155,15 +144,28 @@ public class EditMenu extends JMenu
 
 							}
 					});
+				
+				selectAll.addActionListener(new ActionListener()
+					{
 
+						@Override
+						public void actionPerformed(ActionEvent e)
+							{
+								drawPanel.selectAll();
+								drawPanel.repaint();
+
+							}
+					});
+				
 				add(undo);
 				add(redo);
 				add(reset);
 				add(delete);
 				add(group);
 				add(ungroup);
+			//	add(selectAll);
 				add(saveShapes);
-				add(saveImage);
+				//add(saveImage);
 
 			}
 

@@ -1,4 +1,4 @@
-package se.hig.oopd2.projekt;
+package se.hig.oodp2.projekt;
 
 import java.awt.Dimension;
 import java.awt.Graphics;

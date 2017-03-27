@@ -1,21 +1,23 @@
 package se.hig.oodp2.states;
 
-import se.hig.oodp2.shapes.Circle;
 import se.hig.oodp2.shapes.Shape;
+import se.hig.oodp2.shapes.Triangle;
 
-public class CircleState implements ShapeState
+public class TriangleState implements ShapeState
 	{
 
 		@Override
 		public Shape createShape(double x, double y, double w, double h)
 			{
-				return new Circle(x, y, w, h);
+				// TODO Auto-generated method stub
+				return new Triangle(x, y, w, h);
 			}
 
 		@Override
 		public Shape createShape(double x, double y)
 			{
-				return new Circle(x, y);
+				// TODO Auto-generated method stub
+				return new Triangle(x, y);
 			}
 
 	}

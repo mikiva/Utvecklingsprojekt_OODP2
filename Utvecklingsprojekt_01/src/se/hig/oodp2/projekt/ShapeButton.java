@@ -1,4 +1,4 @@
-package se.hig.oopd2.projekt;
+package se.hig.oodp2.projekt;
 
 import java.awt.Color;
 import java.awt.Dimension;
@@ -16,13 +16,14 @@ public class ShapeButton extends JButton
 		private static final long serialVersionUID = 1L;
 
 		private String name;
+		private Dimension bSize = new Dimension(30,30);
 		public ShapeButton(String name)
 			{
 				this.name = name;
 
-				setPreferredSize(new Dimension(30, 30));
+				setPreferredSize(bSize);
 				ImageIcon icon = new ImageIcon("images/" + name + ".png");
-				setIcon(resizeIcon(icon, 20,20));
+				setIcon(resizeIcon(icon, (int)(bSize.width*0.7), (int)(bSize.height*0.7)));
 				setBackground(Color.white);
 			}
 		public String getName(){

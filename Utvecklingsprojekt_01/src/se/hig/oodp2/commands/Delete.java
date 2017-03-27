@@ -2,10 +2,10 @@ package se.hig.oodp2.commands;
 
 import java.util.List;
 
+import se.hig.oodp2.projekt.DrawPanel;
 import se.hig.oodp2.shapes.SelectedShapes;
 import se.hig.oodp2.shapes.Shape;
 import se.hig.oodp2.shapes.ShapeList;
-import se.hig.oopd2.projekt.DrawPanel;
 
 public class Delete implements Command
 	{
@@ -28,7 +28,7 @@ public class Delete implements Command
 				for (Shape s : selShape.getShapesFromComp())
 					tempList.add(s);
 
-				selShape.delete();
+				selShape.reset();
 
 			}
 

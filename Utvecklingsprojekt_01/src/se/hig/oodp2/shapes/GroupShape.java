@@ -24,6 +24,7 @@ public class GroupShape implements Shape, Observer, Serializable
 		private SelectedShapes shapes = SelectedShapes.getInstance();
 		private List<Shape> list = ShapeList.getInstance();
 		private Color color;
+		private int stroke;
 
 		public GroupShape()
 			{
@@ -44,22 +45,19 @@ public class GroupShape implements Shape, Observer, Serializable
 		@Override
 		public void draw(Graphics g)
 			{
-				
 
-				for (Shape s : compList){
-				s.setColor(Color.pink);
-					s.draw(g);
-				}
+				for (Shape s : compList)
+					{
+						// s.setColor(Color.pink);
+
+						s.draw(g);
+					}
 
 				if (!compList.isEmpty())
 					{
-						Graphics2D g2 = (Graphics2D)g;
+						Graphics2D g2 = (Graphics2D) g;
 						g2.setStroke(new BasicStroke(1));
 						g2.setColor(Color.black);
-						g2.drawLine((int)x, (int)y, (int)(x+w), (int)y);
-						g2.drawLine((int)x, (int)y, (int)(x), (int)(y+h));
-//						new Line(x, y, (x + w), y).draw(g);
-//						new Line(x, y, x, (y + h)).draw(g);
 
 					}
 			}
@@ -104,7 +102,6 @@ public class GroupShape implements Shape, Observer, Serializable
 		@Override
 		public void drawDyn(int x2, int y2)
 			{
-				// TODO Auto-generated method stub
 
 			}
 
@@ -130,14 +127,14 @@ public class GroupShape implements Shape, Observer, Serializable
 		@Override
 		public int getWidth()
 			{
-				// TODO Auto-generated method stub
+
 				return (int) w;
 			}
 
 		@Override
 		public int getHeight()
 			{
-				// TODO Auto-generated method stub
+
 				return (int) h;
 			}
 
@@ -145,6 +142,8 @@ public class GroupShape implements Shape, Observer, Serializable
 		public void setColor(Color c)
 			{
 				this.color = c;
+				for (Shape s : compList)
+					s.setColor(color);
 
 			}
 
@@ -171,8 +170,6 @@ public class GroupShape implements Shape, Observer, Serializable
 							this.x = s.getX();
 					}
 
-				// if (this.x < 0 || this.x > x)
-				// this.x = x;
 			}
 
 		@Override
@@ -186,9 +183,6 @@ public class GroupShape implements Shape, Observer, Serializable
 							this.y = s.getY();
 					}
 
-				// if (this.y < 0 || this.y > y)
-				// this.y = y;
-
 			}
 
 		public void selectShape(Shape s)
@@ -201,7 +195,7 @@ public class GroupShape implements Shape, Observer, Serializable
 			{
 				for (Shape s : compList)
 					{
-						s.setColor();
+
 						list.add(s);
 					}
 
@@ -236,14 +230,12 @@ public class GroupShape implements Shape, Observer, Serializable
 		@Override
 		public void toggleVisible()
 			{
-				// TODO Auto-generated method stub
 
 			}
 
 		@Override
 		public boolean isVisible()
 			{
-				// TODO Auto-generated method stub
 				return isVisible;
 			}
 
@@ -255,8 +247,29 @@ public class GroupShape implements Shape, Observer, Serializable
 		@Override
 		public void setColor()
 			{
-				// TODO Auto-generated method stub
 
+			}
+
+		@Override
+		public void setStroke(int stro)
+			{
+				this.stroke = stro;
+				for (Shape s : compList)
+					s.setStroke(stroke);
+			}
+
+		@Override
+		public Color getColor()
+			{
+
+				return this.color;
+			}
+
+		@Override
+		public int getStroke()
+			{
+
+				return this.stroke;
 			}
 
 	}

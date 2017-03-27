@@ -1,9 +1,9 @@
 package se.hig.oodp2.commands;
 
+import se.hig.oodp2.projekt.DrawPanel;
+import se.hig.oodp2.projekt.OpenObject;
 import se.hig.oodp2.shapes.GroupShape;
 import se.hig.oodp2.shapes.Shape;
-import se.hig.oopd2.projekt.DrawPanel;
-import se.hig.oopd2.projekt.OpenObject;
 
 public class OpenFile implements Command
 	{

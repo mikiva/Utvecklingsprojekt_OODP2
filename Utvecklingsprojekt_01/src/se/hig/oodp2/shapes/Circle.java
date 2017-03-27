@@ -1,15 +1,17 @@
 package se.hig.oodp2.shapes;
 
+import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Graphics;
+import java.awt.Graphics2D;
 
 public class Circle implements Shape
 	{
 
 		/**
-	 * 
-	 */
-	private static final long serialVersionUID = 1L;
+		* 
+		*/
+		private static final long serialVersionUID = 1L;
 		private double x;
 		private double y;
 		private double dx;
@@ -17,6 +19,7 @@ public class Circle implements Shape
 		private double radius;
 		private double w;
 		private double h;
+		private int stroke = 1;
 
 		private Color color;
 
@@ -40,8 +43,6 @@ public class Circle implements Shape
 
 				this.x = x;
 				this.y = y;
-				// this.w = w;
-				// this.h = h;
 				this.color = Color.yellow;
 				this.dx = (Math.random() - 0.5) * 10;
 				this.dy = (Math.random() - 0.5) * 10;
@@ -51,9 +52,12 @@ public class Circle implements Shape
 		@Override
 		public void draw(Graphics g)
 			{
-				g.setColor(color);
-				g.fillOval((int) (x), (int) (y), (int) h, (int) h);
-				// g.fillOval((int)x, (int)y, (int)radius, (int)radius);
+				Graphics2D g2 = (Graphics2D) g;
+				g2.setStroke(new BasicStroke(stroke));
+
+				g2.setColor(color);
+				g2.drawOval((int) (x), (int) (y), (int) h, (int) h);
+				g2.fillOval((int) x, (int) y, (int) radius, (int) radius);
 
 			}
 
@@ -61,7 +65,6 @@ public class Circle implements Shape
 			{
 
 				this.h = x2 - this.x;
-
 
 			}
 
@@ -73,13 +76,10 @@ public class Circle implements Shape
 		@Override
 		public void move(int x, int y)
 			{
-				System.out.println(x + "  " + y);
-				
+			//	System.out.println(x + "  " + y);
+
 				this.x = x;
 				this.y = y;
-				/*
-				 * x = (x + dx) % xmax; y = (y + dy) % ymax;
-				 */
 			}
 
 		public void move()
@@ -92,10 +92,6 @@ public class Circle implements Shape
 
 				double dx = this.x + (h / 2);
 				double dy = this.y + (h / 2);
-
-				// double dx = (x - (this.x)) -(h/2);
-				// double dy = (y - (this.y)) -(h/2);
-
 				return (h / 2) * (h / 2) > Math.pow(dx - x, 2) + Math.pow(dy - y, 2);
 
 			}
@@ -125,54 +121,70 @@ public class Circle implements Shape
 		@Override
 		public int getX()
 			{
-				// TODO Auto-generated method stub
+		
 				return (int) x;
 			}
 
 		@Override
 		public int getY()
 			{
-				// TODO Auto-generated method stub
+		
 				return (int) y;
 			}
-
 
 		@Override
 		public void setX(double x)
 			{
-				// TODO Auto-generated method stub
-				
+	
+
 			}
 
 		@Override
 		public void setY(double y)
 			{
-				// TODO Auto-generated method stub
-				
+		
 			}
-
-
-
 
 		@Override
 		public void toggleVisible()
 			{
-				// TODO Auto-generated method stub
-				
+
+
 			}
 
 		@Override
 		public boolean isVisible()
 			{
-				// TODO Auto-generated method stub
+
 				return isVisible;
 			}
 
 		@Override
 		public void setColor()
 			{
-				setColor(Color.yellow);
+				setColor(color);
+
+			}
+
+		@Override
+		public void setStroke(int stroke)
+			{
+				this.stroke = stroke;;
 				
+			}
+
+		@Override
+		public Color getColor()
+			{
+				// TODO Auto-generated method stub
+				return this.color;
+			}
+
+		@Override
+		public int getStroke()
+			{
+
+				return this.stroke;
 			}
 
 	}

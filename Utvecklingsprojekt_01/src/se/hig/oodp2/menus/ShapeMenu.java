@@ -1,4 +1,4 @@
-package Menus;
+package se.hig.oodp2.menus;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;

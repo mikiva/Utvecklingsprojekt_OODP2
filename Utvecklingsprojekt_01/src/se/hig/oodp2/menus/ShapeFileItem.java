@@ -1,4 +1,4 @@
-package Menus;
+package se.hig.oodp2.menus;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -7,7 +7,7 @@ import javax.swing.JMenuItem;
 
 import se.hig.oodp2.commands.CommandStack;
 import se.hig.oodp2.commands.OpenFile;
-import se.hig.oopd2.projekt.DrawPanel;
+import se.hig.oodp2.projekt.DrawPanel;
 
 public class ShapeFileItem extends JMenuItem
 	{
@@ -33,6 +33,7 @@ public class ShapeFileItem extends JMenuItem
 					
 						
 						commands.doCommand(new OpenFile(filename));
+						panel.repaint();
 					}
 			});
 		

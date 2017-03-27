@@ -1,4 +1,4 @@
-package se.hig.oopd2.projekt;
+package se.hig.oodp2.projekt;
 
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
@@ -27,7 +27,7 @@ public class ControlPanel extends JPanel
 		DrawPanel drawPanel;
 		CommandStack commands;
 
-		ControlPanel() throws IOException
+		ControlPanel()
 			{
 				super();
 

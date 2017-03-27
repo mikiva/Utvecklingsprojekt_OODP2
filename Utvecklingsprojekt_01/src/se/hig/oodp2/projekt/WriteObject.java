@@ -1,4 +1,4 @@
-package se.hig.oopd2.projekt;
+package se.hig.oodp2.projekt;
 
 import java.io.File;
 import java.io.FileOutputStream;

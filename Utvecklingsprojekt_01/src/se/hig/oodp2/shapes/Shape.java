@@ -7,7 +7,6 @@ public interface Shape extends Drawable, Movable, Serializable
 	{
 		
 		public void move();
-		public void move(int x, int y);
 		public boolean inside(int x, int y);
 		public void drawDyn(int x2, int y2);
 		public void setSize(int w, int h);
@@ -21,5 +20,8 @@ public interface Shape extends Drawable, Movable, Serializable
 		public void setY(double y);
 		public void toggleVisible();
 		public boolean isVisible();
+		public void setStroke(int stroke);
+		public Color getColor();
+		public int getStroke();
 		
 	}

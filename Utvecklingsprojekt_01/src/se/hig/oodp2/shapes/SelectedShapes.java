@@ -8,14 +8,12 @@ import java.io.Serializable;
 import java.util.List;
 import java.util.Observable;
 import java.util.Observer;
+import java.util.logging.Handler;
 
 public class SelectedShapes implements Shape, Observer, Serializable
 	{
-		/**
-	 * 
-	 */
-	private static final long serialVersionUID = 1L;
-	
+		private static final long serialVersionUID = 1L;
+
 		private ShapeList<Shape> compList;
 		private double x = -1;
 		private double y = -1;
@@ -23,8 +21,9 @@ public class SelectedShapes implements Shape, Observer, Serializable
 		private double h;
 		private boolean isVisible = true;
 		private List<Shape> list = ShapeList.getInstance();
-
+		private Color color;
 		private static SelectedShapes selShape = new SelectedShapes();
+		private int stroke;
 
 		public static SelectedShapes getInstance()
 			{
@@ -34,6 +33,7 @@ public class SelectedShapes implements Shape, Observer, Serializable
 		public SelectedShapes()
 			{
 				compList = new ShapeList<>();
+				stroke = 1;
 
 			}
 
@@ -41,21 +41,24 @@ public class SelectedShapes implements Shape, Observer, Serializable
 		public void draw(Graphics g)
 			{
 
+				Graphics2D g2 = (Graphics2D) g;
 				for (Shape s : compList)
-					s.draw(g);
-
-				if (!compList.isEmpty())
 					{
-						Graphics2D g2 = (Graphics2D) g;
-						g2.setColor(Color.pink);
-						g2.setStroke(new BasicStroke(1));
-						g2.drawLine((int)x, (int)y, (int)(x+w), (int)y);
-						g2.drawLine((int)x, (int)y, (int)x, (int)(y+h));
-//						new Line(x, y, (x + w), y).draw(g);
-//						new Line(x, y, x, (y + h)).draw(g);
-						
+						if (s != null)
+							s.draw(g2);
+						//System.out.println("Complist " + compList.size());
 
 					}
+
+				if (!compList.isEmpty()) // Uncomment these line to show lines
+											// where shapes are selected
+					{
+						// g2.setStroke(new BasicStroke(2));
+						// g2.drawLine((int)x, (int)y, (int)(x+w), (int)y);
+						// g2.drawLine((int)x, (int)y, (int)x, (int)(y+h));
+
+					}
+
 			}
 
 		@Override
@@ -98,7 +101,6 @@ public class SelectedShapes implements Shape, Observer, Serializable
 		@Override
 		public void drawDyn(int x2, int y2)
 			{
-				// TODO Auto-generated method stub
 
 			}
 
@@ -124,21 +126,22 @@ public class SelectedShapes implements Shape, Observer, Serializable
 		@Override
 		public int getWidth()
 			{
-				// TODO Auto-generated method stub
+
 				return 0;
 			}
 
 		@Override
 		public int getHeight()
 			{
-				// TODO Auto-generated method stub
+
 				return 0;
 			}
 
 		@Override
 		public void setColor(Color c)
 			{
-				// TODO Auto-generated method stub
+				for (Shape s : compList)
+					s.setColor(c);
 
 			}
 
@@ -165,8 +168,6 @@ public class SelectedShapes implements Shape, Observer, Serializable
 							this.x = s.getX();
 					}
 
-				// if (this.x < 0 || this.x > x)
-				// this.x = x;
 			}
 
 		@Override
@@ -180,55 +181,40 @@ public class SelectedShapes implements Shape, Observer, Serializable
 							this.y = s.getY();
 					}
 
-				// if (this.y < 0 || this.y > y)
-				// this.y = y;
-
 			}
 
 		public void selectShape(Shape s)
 			{
-				if(list.contains(s))
-				list.remove(s);
-				compList.add(s);
-				this.x = (this.x > s.getX()) ? s.getX() : this.x;
-//				this.y = (this.y > s.getY()) ? s.getY() : this.y;
+				if (list.contains(s))
+					{
+						list.remove(s);
+						compList.add(s);
+
+						setX(0);
+						setY(0);
+
+						setSize(0, 0);
+					}
 				
-				setX(0);
-				setY(0);
-				
-//				setX(s.getX());
-//				setY(s.getY());
-				setSize(0,0);
 
 			}
 
 		public void deselectShape(Shape s)
 			{
-				list.add(s);
 				compList.remove(s);
-			
+				list.add(s);
+
 				if (!compList.isEmpty())
 					{
-//						System.out.println("deselect");
-//						setX(compList.get(0).getX());
-//						setY(compList.get(0).getY());
-//						for(Shape sh : compList){
-//						this.x = (this.x > sh.getX()) ? sh.getX() : this.x;
-//						this.y = (this.y > sh.getY()) ? sh.getX() : this.y;
+
 						setX(0);
 						setY(0);
-						
-//						}
-//						Shape t = compList.get(compList.size() - 1);
-//						setX(t.getX());
-//						setY(t.getY());
-//						setSize(t.getX(), t.getY());
-//						System.out.println("deselect");
+
 					}
 				else
 					setSize(0, 0);
 
-				setSize(0,0);
+				setSize(0, 0);
 
 			}
 
@@ -236,11 +222,17 @@ public class SelectedShapes implements Shape, Observer, Serializable
 			{
 
 				StringBuilder str = new StringBuilder();
-				for (Shape s : compList)
+				if (compList.isEmpty())
+					return "Selected Empty";
+				else
 					{
-						str.append(s.toString() + " \n");
+						for (Shape s : compList)
+							{
+								str.append(" + " + s.toString());
+							}
+						return str.toString();
 					}
-				return str.toString();
+
 			}
 
 		public List<Shape> getShapesFromComp()
@@ -258,14 +250,12 @@ public class SelectedShapes implements Shape, Observer, Serializable
 		@Override
 		public void toggleVisible()
 			{
-				// TODO Auto-generated method stub
 
 			}
 
 		@Override
 		public boolean isVisible()
 			{
-				// TODO Auto-generated method stub
 				return isVisible;
 			}
 
@@ -277,8 +267,8 @@ public class SelectedShapes implements Shape, Observer, Serializable
 						System.out.println(s.getClass());
 						if (s instanceof GroupShape)
 							{
-								((GroupShape)s).unGroup();
-								delete();
+								((GroupShape) s).unGroup();
+								reset();
 							}
 					}
 
@@ -286,19 +276,52 @@ public class SelectedShapes implements Shape, Observer, Serializable
 
 		public void clear()
 			{
-				for(Shape s: compList)
+				for (Shape s : compList)
 					list.add(s);
+
+				compList.clear();
+				//list.remove(this);
+
+			}
+
+		public void reset()
+			{
 				compList.clear();
 			}
-		public void delete(){
-			compList.clear();
-		}
 
 		@Override
 		public void setColor()
 			{
-				// TODO Auto-generated method stub
 
+			}
+
+		public boolean noSelected()
+			{
+				// System.out.println(toString());
+
+				return compList.isEmpty();
+			}
+
+		@Override
+		public void setStroke(int stroke)
+			{
+				for (Shape s : compList)
+					s.setStroke(stroke);
+
+			}
+
+		@Override
+		public Color getColor()
+			{
+
+				return this.color;
+			}
+
+		@Override
+		public int getStroke()
+			{
+
+				return this.stroke;
 			}
 
 	}

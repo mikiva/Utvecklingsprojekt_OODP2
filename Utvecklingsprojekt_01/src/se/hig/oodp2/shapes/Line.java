@@ -10,9 +10,9 @@ public class Line implements Shape, Serializable
 
 	{
 		/**
-	 * 
-	 */
-	private static final long serialVersionUID = 1L;
+		* 
+		*/
+		private static final long serialVersionUID = 1L;
 		private double x1;
 		private double x2;
 		private double y1;
@@ -21,6 +21,7 @@ public class Line implements Shape, Serializable
 		private boolean isVisible = true;
 		private double w;
 		private double h;
+		private int stroke = 1;
 
 		public Line(double x1, double y1, double x2, double y2)
 			{
@@ -29,7 +30,7 @@ public class Line implements Shape, Serializable
 				this.x2 = x2;
 				this.y2 = y2;
 				this.color = Color.red;
-				setSize((int)(x2-x1),(int)(y2-y1));
+				setSize((int) (x2 - x1), (int) (y2 - y1));
 			}
 
 		public Line(double x1, double y1)
@@ -41,15 +42,16 @@ public class Line implements Shape, Serializable
 				this.y2 = y1;
 
 				this.color = Color.red;
-				
+
 			}
 
 		@Override
 		public void draw(Graphics g)
 			{
-				Graphics2D g2 = (Graphics2D)g;
-				g.setColor(color);
-				g2.setStroke(new BasicStroke(5));
+				Graphics2D g2 = (Graphics2D) g;
+				g2.setStroke(new BasicStroke(stroke));
+				g2.setColor(color);
+
 				g2.drawLine((int) x1, (int) y1, (int) x2, (int) y2);
 
 			}
@@ -57,7 +59,6 @@ public class Line implements Shape, Serializable
 		@Override
 		public void move()
 			{
-				// TODO Auto-generated method stub
 
 			}
 
@@ -66,11 +67,9 @@ public class Line implements Shape, Serializable
 			{
 				this.x1 = x;
 				this.y1 = y;
-				
-				
-				this.x2 = (this.x1+w);
-				this.y2 = (this.y1+h);
 
+				this.x2 = (this.x1 + w);
+				this.y2 = (this.y1 + h);
 
 			}
 
@@ -82,6 +81,11 @@ public class Line implements Shape, Serializable
 						if (y < (int) (this.y1 + 15) && y > (int) (this.y1 - 15))
 							return true;
 					}
+				else if (x < (int) (this.x2 + 15) && x > (int) (this.x2 - 15))
+					{
+						if (y < (int) (this.y2 + 15) && y > (int) (this.y2 - 15))
+							return true;
+					}
 
 				return false;
 			}
@@ -91,7 +95,7 @@ public class Line implements Shape, Serializable
 			{
 				this.x2 = x2;
 				this.y2 = y2;
-				setSize((int)(x2-x1),(int)(y2-y1));
+				setSize((int) (x2 - x1), (int) (y2 - y1));
 			}
 
 		@Override
@@ -105,15 +109,15 @@ public class Line implements Shape, Serializable
 		@Override
 		public int getWidth()
 			{
-				// TODO Auto-generated method stub
-				return (int)(x2-x1);
+
+				return (int) (x2 - x1);
 			}
 
 		@Override
 		public int getHeight()
 			{
-				// TODO Auto-generated method stub
-				return (int)(y2-y1);
+
+				return (int) (y2 - y1);
 			}
 
 		@Override
@@ -133,14 +137,14 @@ public class Line implements Shape, Serializable
 		@Override
 		public int getX()
 			{
-				// TODO Auto-generated method stub
+
 				return (int) this.x1;
 			}
 
 		@Override
 		public int getY()
 			{
-				// TODO Auto-generated method stub
+
 				return (int) this.y1;
 			}
 
@@ -160,22 +164,41 @@ public class Line implements Shape, Serializable
 		@Override
 		public void toggleVisible()
 			{
-				// TODO Auto-generated method stub
 
 			}
 
 		@Override
 		public boolean isVisible()
 			{
-				// TODO Auto-generated method stub
+
 				return isVisible;
 			}
 
 		@Override
 		public void setColor()
 			{
-				setColor(Color.red);
+				setColor(color);
 
+			}
+
+		@Override
+		public void setStroke(int stro)
+			{
+				this.stroke = stro;
+
+			}
+
+		@Override
+		public Color getColor()
+			{
+				return this.color;
+			}
+
+		@Override
+		public int getStroke()
+			{
+
+				return this.stroke;
 			}
 
 	}

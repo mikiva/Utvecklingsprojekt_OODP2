@@ -1,4 +1,4 @@
-package se.hig.oopd2.projekt;
+package se.hig.oodp2.projekt;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
@@ -10,10 +10,12 @@ import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.JPanel;
+import javax.swing.JPopupMenu;
 import javax.swing.WindowConstants;
 
-import Menus.EditMenu;
-import Menus.ShapeMenu;
+import se.hig.oodp2.menus.EditMenu;
+import se.hig.oodp2.menus.PropertiesPopup;
+import se.hig.oodp2.menus.ShapeMenu;
 
 public class MainWindow extends JFrame
 	{
@@ -21,53 +23,40 @@ public class MainWindow extends JFrame
 		* 
 		*/
 		private static final long serialVersionUID = 1L;
-		JPanel mainPanel;
-		DrawPanel drawPanel;
-		ControlPanel control;
-		LayerPanel layerPanel;
-		ShapePanel shapePanel;
-		private final int FRAME_WIDTH = 1000;
-		private final int FRAME_HEIGHT = 800;
+		private JPanel mainPanel;
+		private DrawPanel drawPanel;
+		private ShapePanel shapePanel;
+		private PropertiesPopup popup;
 
-		public MainWindow() throws IOException
+		public MainWindow()
 			{
-				super("Version 1");
+				super("Version 3.14");
 
 				mainPanel = new JPanel();
-				layerPanel = new LayerPanel();
 				shapePanel = new ShapePanel();
 				drawPanel = DrawPanel.getInstance();
 				setContentPane(mainPanel);
-				control = new ControlPanel();
 				setJMenuBar(makeMenuBar());
-				Container c = getContentPane();
 				mainPanel.setLayout(new BorderLayout());
 				mainPanel.setBackground(Color.BLACK);
 				mainPanel.add(shapePanel, BorderLayout.WEST);
-				mainPanel.add(control, BorderLayout.SOUTH);
 				mainPanel.add(drawPanel, BorderLayout.CENTER);
-				// mainPanel.add(layerPanel, BorderLayout.EAST);
-				control.setDrawPanel(drawPanel);
 
-				// mainPanel.add(new Button1(), BorderLayout.CENTER);
+				popup = PropertiesPopup.getInstance();
+				
+				drawPanel.setComponentPopupMenu(popup);
 
-				// setLocationRelativeTo(null);
-				setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
-				// setSize(FRAME_WIDTH, FRAME_HEIGHT);
+				
+				setDefaultCloseOperation(EXIT_ON_CLOSE);
 				pack();
+				setLocationRelativeTo(null);
 				setVisible(true);
 			}
 
 		private JMenuBar makeMenuBar()
 			{
 
-				JMenu menu = new JMenu("Menu");
-
-				JMenuItem item1 = new JMenuItem("Test");
-				menu.add(item1);
 				JMenuBar menuBar = new JMenuBar();
-				// menuBar.add(menu);
-
 				JMenu fileMenu = ShapeMenu.getInstance();
 				JMenu editMenu = EditMenu.getInstance();
 

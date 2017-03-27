@@ -10,15 +10,20 @@ public class CommandStack
 		private List<Command> macro = new LinkedList<>();
 		private Stack<Command> commands = new Stack<>();
 		private Stack<Command> redoCommands = new Stack<>();
+		private Command redo;
 
 		public static CommandStack commandStack = new CommandStack();
 
 		public void doCommand(Command command)
 			{
 
+				checkIfNewCommand(command);
+
 				macro.add(command);
 				commands.push(command);
 				command.execute();
+
+				System.out.println("Command  " + command.getClass());
 			}
 
 		public void undoCommand()
@@ -30,6 +35,7 @@ public class CommandStack
 						redoCommands.push(command);
 						macro.remove(macro.size() - 1);
 						command.undo();
+						System.out.println("Undo  " + command.toString());
 					}
 				catch (EmptyStackException e)
 					{
@@ -43,8 +49,8 @@ public class CommandStack
 
 				try
 					{
-						Command command = redoCommands.pop();
-						doCommand(command);
+						redo = redoCommands.pop();
+						doCommand(redo);
 					}
 				catch (EmptyStackException e)
 					{
@@ -55,5 +61,20 @@ public class CommandStack
 		public static CommandStack getInstance()
 			{
 				return commandStack;
+			}
+
+		private void checkIfNewCommand(Command comm)
+			{
+
+				if (redoCommands.isEmpty())
+					{
+						return;
+					}
+				else
+					{
+						if (!comm.equals(redo))
+							redoCommands.clear();
+					}
+
 			}
 	}

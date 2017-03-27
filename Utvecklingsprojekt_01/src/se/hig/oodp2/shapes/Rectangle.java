@@ -8,10 +8,7 @@ import java.awt.Graphics2D;
 public class Rectangle implements Shape
 	{
 
-		/**
-	 * 
-	 */
-	private static final long serialVersionUID = 1L;
+		private static final long serialVersionUID = 1L;
 		private double x;
 		private double y;
 		private double dx;
@@ -22,6 +19,7 @@ public class Rectangle implements Shape
 		private int ymax;
 		private Color color;
 		private boolean isVisible = true;
+		private int stroke = 1;
 
 		private double x1, y1, x2, y2;
 
@@ -35,11 +33,12 @@ public class Rectangle implements Shape
 
 				this.x1 = x;
 				this.y1 = y;
-				this.x2 = (x+w);
-				this.y2 = (y+h);
+				this.x2 = (x + w);
+				this.y2 = (y + h);
 				this.color = Color.blue;
 
 			}
+
 		public Rectangle(double x, double y)
 			{
 
@@ -58,16 +57,13 @@ public class Rectangle implements Shape
 		public void draw(Graphics g)
 			{
 
-				Graphics2D g2 = (Graphics2D)g;
-				g2.setStroke(new BasicStroke());
+				Graphics2D g2 = (Graphics2D) g;
+				g2.setStroke(new BasicStroke(stroke));
 				g2.setColor(color);
 				g2.drawLine((int) x1, (int) y1, (int) (x2), (int) (y1)); // top
 				g2.drawLine((int) (x2), (int) y1, (int) (x2), (int) (y2)); // right
 				g2.drawLine((int) (x1), (int) (y2), (int) (x2), (int) (y2)); // bottom
 				g2.drawLine((int) (x1), (int) (y1), (int) (x1), (int) (y2)); // left
-
-				// g.fillRect((int) x, (int) y, (int) (w), (int) (h));
-
 			}
 
 		public void drawDyn(int x2, int y2)
@@ -103,7 +99,6 @@ public class Rectangle implements Shape
 		@Override
 		public void move()
 			{
-				// TODO Auto-generated method stub
 
 			}
 
@@ -156,55 +151,73 @@ public class Rectangle implements Shape
 		@Override
 		public void setColor(Color c)
 			{
-				this.color = color;
+				this.color = c;
 
 			}
 
 		@Override
 		public int getX()
 			{
-				// TODO Auto-generated method stub
-				return (int)x1;
+
+				return (int) x1;
 			}
 
 		@Override
 		public int getY()
 			{
-				// TODO Auto-generated method stub
-				return (int)y1;
+
+				return (int) y1;
 			}
 
 		@Override
 		public void setX(double x)
 			{
-				// TODO Auto-generated method stub
-				
+
 			}
+
 		@Override
 		public void setY(double y)
 			{
-				// TODO Auto-generated method stub
-				
-			}
 
+			}
 
 		@Override
 		public void toggleVisible()
 			{
-				// TODO Auto-generated method stub
-				
+
 			}
+
 		@Override
 		public boolean isVisible()
 			{
-				// TODO Auto-generated method stub
 				return isVisible;
 			}
+
 		@Override
 		public void setColor()
 			{
-				setColor(Color.blue);
-				
+				setColor(color);
+
+			}
+
+		@Override
+		public void setStroke(int stroke)
+			{
+				this.stroke = stroke;
+
+			}
+
+		@Override
+		public Color getColor()
+			{
+				return this.color;
+			}
+
+		@Override
+		public int getStroke()
+			{
+
+				return this.stroke;
 			}
 
 	}

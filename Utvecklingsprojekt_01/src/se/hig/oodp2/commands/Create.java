@@ -1,7 +1,7 @@
 package se.hig.oodp2.commands;
 
+import se.hig.oodp2.projekt.DrawPanel;
 import se.hig.oodp2.shapes.Shape;
-import se.hig.oopd2.projekt.DrawPanel;
 
 public class Create implements Command
 	{

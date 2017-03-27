@@ -27,8 +27,9 @@ public class Reset implements Command
 				for(Shape s : list)
 					tempList.add(s);
 				
-				selShape.delete();
+				selShape.reset();
 				list.clear();
+			//	list.add(selShape);
 
 			}
 

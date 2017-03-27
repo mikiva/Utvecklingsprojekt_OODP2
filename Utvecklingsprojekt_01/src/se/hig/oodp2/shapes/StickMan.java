@@ -6,22 +6,17 @@ import java.awt.Graphics;
 public class StickMan implements Shape
 	{
 
-
-		/**
-	 * 
-	 */
-	private static final long serialVersionUID = 1L;
+		private static final long serialVersionUID = 1L;
 		private double x;
 		private double y;
 		private double dx;
 		private double dy;
-		private double radius;
 		private double w;
 		private double h;
-		private int xmax;
-		private int ymax;
-		private Color color;
+		private Color color = Color.orange;
 		private boolean isVisible = true;
+		private int stroke = 1;
+		private Shape[] man = new Shape[5];
 
 		private double x1, y1, x2, y2;
 
@@ -30,7 +25,6 @@ public class StickMan implements Shape
 
 				this.x = x;
 				this.y = y;
-				this.color = Color.BLACK;
 
 				this.x1 = x;
 				this.y1 = y;
@@ -39,7 +33,6 @@ public class StickMan implements Shape
 
 				this.dx = (Math.random() - 0.5) * 10;
 				this.dy = (Math.random() - 0.5) * 10;
-				setColor(Color.black);
 
 			}
 
@@ -48,44 +41,33 @@ public class StickMan implements Shape
 
 				this.x = x;
 				this.y = y;
-				this.color = Color.BLACK;
 
 				this.x1 = x;
 				this.y1 = y;
 
 				this.dx = (Math.random() - 0.5) * 10;
 				this.dy = (Math.random() - 0.5) * 10;
-				setColor(Color.black);
 
 			}
 
 		@Override
 		public void draw(Graphics g)
 			{
-				//g.setColor(color);
-				// g.drawOval((int)(x1), (int)y1, (int)((w)/4), (int)((w)/4));
-				// g.drawLine((int)(x1+(w/8)), (int)(y1+(this.w/4)),
-				// (int)((x1+(w/8))), (int)(y2+ (w/2)));
-				// g.drawLine((int)(x1), (int)(y1+(w/3)),
-				// (int)(x1+w/4),(int)(y1+(w/3)));
 
-//				g.drawOval((int) (x1 + w/6), (int) y1, (int) ((2*(w/3))), (int)((2*(w/3)))); // head
-//				g.drawLine((int) (x1 + (w/2)), (int) (y1 + (2*w/3)), (int) ((x1 + (w/2))), (int) (y1 + (h*0.8))); // body
-//				g.drawLine((int) (x1), (int) (y1 + ((w))), (int) (x1 + w), (int) (y1 + (w))); // arms
-//				g.drawLine((int) (x1 + (w/2)), (int) (y1 + (h*0.8)), (int) (x1), (int) (y1 + h)); // left
-//																												// leg
-//				g.drawLine((int) (x1 + (w / 2)), (int) (y1 + (h*0.8)), (int) (x1 + w), (int) (y1 + h)); // right
-//																													// leg
-				//g.setColor(Color.red);
-//				g.drawLine((int)x1, (int)y1, (int)x1, (int)(y1+h));
-//				g.drawLine((int)x1, (int)y1, (int)(x1+w), (int)(y1));
-				
-				
-				new Circle(x1 + w/6, y1, (2*(w/3)), 2*(w/3)).draw(g); //head
-				new Line(x1 + (w/2),(y1 + (2*w/3)),((x1 + (w/2))),(y1 + (h*0.8))).draw(g); //body
-				new Line(x1,(y1 + (w)),(x1 + w),(y1 + w)).draw(g);//arms
-				new Line(x1 + (w/2),(y1 + (h*0.8)),(x1),(y1 + h)).draw(g);//left leg
-				new Line(x1 + (w/2),(y1 + (h*0.8)),(x1 + w),(y1 + h)).draw(g);//right leg
+				man[0] = new Circle(x1 + w / 6, y1, (2 * (w / 3)), 2 * (w / 3)); // head
+				man[1] = new Line(x1 + (w / 2), (y1 + (2 * w / 3)), ((x1 + (w / 2))), (y1 + (h * 0.8))); // body
+				man[2] = new Line(x1, (y1 + (w)), (x1 + w), (y1 + w));// arms
+				man[3] = new Line(x1 + (w / 2), (y1 + (h * 0.8)), (x1), (y1 + h));// left
+																					// leg
+				man[4] = new Line(x1 + (w / 2), (y1 + (h * 0.8)), (x1 + w), (y1 + h));// right
+																						// leg
+
+				for (Shape s : man)
+					{
+						s.setColor(this.color);
+						s.setStroke(this.stroke);
+						s.draw(g);
+					}
 
 			}
 
@@ -99,8 +81,6 @@ public class StickMan implements Shape
 		@Override
 		public void move(int x, int y)
 			{
-				// this.x1 = x - w/4;
-				// this.y1 = y - h/8;
 
 				this.x1 = x;
 				this.y1 = y;
@@ -128,35 +108,31 @@ public class StickMan implements Shape
 			{
 
 				this.w = (x2 - this.x1) / 2;
-				this.h = w*2;
+				this.h = w * 2;
 
 			}
 
 		@Override
 		public void setSize(int w, int h)
 			{
-//				this.w = w * 2;
-//				this.h = h / 8;
 			}
 
 		@Override
 		public int getWidth()
 			{
-				// TODO Auto-generated method stub
 				return (int) w;
 			}
 
 		@Override
 		public int getHeight()
 			{
-				// TODO Auto-generated method stub
 				return (int) h;
 			}
 
 		@Override
 		public void setColor(Color c)
 			{
-				// TODO Auto-generated method stub
+				this.color = c;
 
 			}
 
@@ -168,54 +144,71 @@ public class StickMan implements Shape
 		@Override
 		public int getX()
 			{
-				// TODO Auto-generated method stub
 				return (int) this.x1;
 			}
 
 		@Override
 		public int getY()
 			{
-				// TODO Auto-generated method stub
 				return (int) this.y1;
 			}
-
-
 
 		@Override
 		public void setX(double x)
 			{
-				// TODO Auto-generated method stub
-				
+
 			}
 
 		@Override
 		public void setY(double y)
 			{
-				// TODO Auto-generated method stub
-				
+
 			}
-
-
 
 		@Override
 		public void toggleVisible()
 			{
-				// TODO Auto-generated method stub
-				
+
 			}
 
 		@Override
 		public boolean isVisible()
 			{
-				// TODO Auto-generated method stub
 				return isVisible;
 			}
 
 		@Override
 		public void setColor()
 			{
-				setColor(Color.black);
-				
+				setColor(color);
+
+			}
+
+		@Override
+		public void setStroke(int stro)
+			{
+				this.stroke = stro;
+
+				for (Shape s : man)
+					{
+						s.setStroke(this.stroke);
+						System.out.println(this.stroke);
+					}
+
+			}
+
+		@Override
+		public Color getColor()
+			{
+
+				return this.color;
+			}
+
+		@Override
+		public int getStroke()
+			{
+
+				return this.stroke;
 			}
 
 	}

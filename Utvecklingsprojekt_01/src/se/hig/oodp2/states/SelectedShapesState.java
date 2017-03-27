@@ -1,8 +1,8 @@
 package se.hig.oodp2.states;
 
-import java.util.List;
-
 import se.hig.oodp2.commands.CommandStack;
+import se.hig.oodp2.commands.Deselect;
+import se.hig.oodp2.commands.DeselectAll;
 import se.hig.oodp2.commands.Select;
 import se.hig.oodp2.handlers.MouseHandler;
 import se.hig.oodp2.shapes.SelectedShapes;
@@ -17,23 +17,25 @@ public class SelectedShapesState implements SelectedState
 		private ShapeList<Shape> list;
 		private CommandStack commands = CommandStack.getInstance();
 
-		public SelectedShapesState(MouseHandler handler, Shape shap)
+		public SelectedShapesState(MouseHandler handler)
 			{
-				System.out.println("Multiple selected");
+				// System.out.println("Multiple selected");
 				list = ShapeList.getInstance();
 				this.selShape = SelectedShapes.getInstance();
 				this.handler = handler;
-				select(shap);
-				System.out.println("Selected State");
+				list.add(selShape);
+				// select(shap);
+				// System.out.println("Selected State");
 			}
 
 		@Override
 		public void select(Shape s)
 			{
 
-				commands.doCommand(new Select(s));
-				list.remove(s);
-				list.add(selShape);
+				commands.doCommand(new Select(s, handler));
+				// list.remove(s);
+
+				// list.add(selShape);
 
 			}
 
@@ -48,11 +50,7 @@ public class SelectedShapesState implements SelectedState
 		public void deSelect()
 			{
 
-				for (Shape s : selShape.getShapesFromComp())
-					list.add(s);
-
-				selShape.getShapesFromComp().clear();
-
+				commands.doCommand(new DeselectAll(handler));
 				handler.setState(new NoSelected(handler));
 
 			}
@@ -60,7 +58,6 @@ public class SelectedShapesState implements SelectedState
 		@Override
 		public void deSelect(int x, int y)
 			{
-				// List<Shape> sList = selShape.getShapesFromComp();
 				Shape shape = null;
 				for (Shape s : selShape.getShapesFromComp())
 					{
@@ -72,8 +69,8 @@ public class SelectedShapesState implements SelectedState
 					}
 				if (shape != null)
 					{
-						selShape.deselectShape(shape);
-						list.add(shape);
+						commands.doCommand(new Deselect(handler, shape));
+						// list.add(shape);
 						if (selShape.getShapesFromComp().isEmpty())
 							handler.setState(new NoSelected(handler));
 					}
@@ -83,14 +80,16 @@ public class SelectedShapesState implements SelectedState
 		@Override
 		public boolean isSelected()
 			{
-				// TODO Auto-generated method stub
 				return true;
 			}
 
 		@Override
 		public boolean isSelected(Shape shape)
 			{
-				return selShape.getShapesFromComp().contains(shape);
+
+				return shape.equals(selShape);
+
+				// return selShape.getShapesFromComp().contains(shape);
 			}
 
 	}

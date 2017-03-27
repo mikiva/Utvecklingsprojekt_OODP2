@@ -1,22 +1,21 @@
-package se.hig.oopd2.projekt;
+package se.hig.oodp2.projekt;
 
-import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Observable;
 import java.util.Observer;
 
-import javax.swing.BorderFactory;
 import javax.swing.JPanel;
 
-import Menus.ShapeMenu;
-import se.hig.oodp2.commands.Reset;
 import se.hig.oodp2.commands.CommandStack;
 import se.hig.oodp2.commands.Delete;
+import se.hig.oodp2.commands.Reset;
 import se.hig.oodp2.handlers.MouseHandler;
+import se.hig.oodp2.menus.ShapeMenu;
 import se.hig.oodp2.shapes.GroupShape;
 import se.hig.oodp2.shapes.SelectedShapes;
 import se.hig.oodp2.shapes.Shape;
@@ -28,21 +27,16 @@ public class DrawPanel extends JPanel implements Observer
 	{
 
 		/**
-	 * 
-	 */
-	private static final long serialVersionUID = 1L;
+		* 
+		*/
+		private static final long serialVersionUID = 1L;
 		private ShapeList<Shape> list;
-		private int mX;
-		private int mY;
-		private int x = 0;
-		private int y = 0;
-
 		private int movX;
 		private int movY;
 		private ShapeState shapeState;
-		private List<Shape> selList;
 		private CommandStack commands;
-		private Shape tempShape;
+		private MouseHandler handler;
+		// private Shape tempShape;
 		private LayerPanel layerPanel;
 		private SelectedShapes selShape = SelectedShapes.getInstance();
 		private OpenObject openObj;
@@ -61,14 +55,12 @@ public class DrawPanel extends JPanel implements Observer
 
 				list = ShapeList.getInstance();
 				setBackground(Color.gray);
-				setPreferredSize(new Dimension(800, 600));
-				//setBorder(BorderFactory.createBevelBorder(12));
-				MouseHandler handler = new MouseHandler(this);
-				new Thread(new Mover()).start();
+				setPreferredSize(new Dimension(1000, 800));
+				this.handler = new MouseHandler(this);
+				// new Thread(new Mover()).start();
 				addMouseListener(handler);
 				addMouseMotionListener(handler);
 				shapeState = new CircleState();
-				selList = new ShapeList<>();
 				commands = CommandStack.getInstance();
 				openObj = OpenObject.getInstance();
 
@@ -78,23 +70,23 @@ public class DrawPanel extends JPanel implements Observer
 			{
 
 				super.paintComponent(g);
-				g.drawLine(0, 0, getWidth(), getHeight());
-				g.drawLine(getWidth(), 0, 0, getHeight());
+				// g.drawLine(0, 0, getWidth(), getHeight());
+				// g.drawLine(getWidth(), 0, 0, getHeight());
 
 				Graphics2D g2 = (Graphics2D) g;
-				g2.setStroke(new BasicStroke(2));
+				// g2.setStroke(new BasicStroke(1));
 				g2.drawLine(movX, 0, movX, getHeight());
-				// g.drawLine(movX, 0, movX, getHeight());
+
+				int a = 1;
 
 				for (Shape c : list)
 					{
-						if (c.isVisible())
-							c.draw(g);
+
+						c.draw(g2);
+
+						System.out.println("draw " + ++a + "  " + c.getClass());
 					}
-
-				if (tempShape != null)
-					tempShape.draw(g);
-
+				a = 0;
 			}
 
 		public Shape createShape(double x, double y, double w, double h)
@@ -126,6 +118,8 @@ public class DrawPanel extends JPanel implements Observer
 		public void addToList(Shape s)
 			{
 				list.add(s);
+				repaint();
+
 			}
 
 		public void drawDyn(Shape s, int x, int y)
@@ -147,6 +141,7 @@ public class DrawPanel extends JPanel implements Observer
 
 				return found;
 			}
+
 		public void delete()
 			{
 
@@ -162,6 +157,7 @@ public class DrawPanel extends JPanel implements Observer
 		public void clear()
 			{
 				commands.doCommand(new Reset());
+				repaint();
 
 				// list.clear();
 			}
@@ -169,6 +165,7 @@ public class DrawPanel extends JPanel implements Observer
 		public void remove(Shape s)
 			{
 				list.remove(s);
+				repaint();
 			}
 
 		public void setCommandStack(CommandStack commands)
@@ -195,24 +192,52 @@ public class DrawPanel extends JPanel implements Observer
 
 				shapeMenu.fillMenu();
 			}
-		
+
 		public void saveImage()
 			{
-				
+
 				new WriteImage(list);
-				
+
 			}
 
 		public void open()
 			{
 				// OpenObject oo = new OpenObject();
-			for(Shape sh : list)
-				System.out.println(sh.toString());
+				for (Shape sh : list)
+					System.out.println(sh.toString());
 			}
-		public void clearSelected(){
-			selShape.clear();
-		}
-		
+
+		public void clearSelected()
+			{
+				selShape.clear();
+			}
+
+		public void selectAll()
+			{
+				List<Shape> tempList = new LinkedList<>();
+				selShape.clear();
+				
+				for(Shape s : list)
+					tempList.add(s);
+
+				
+				
+				for (int i = 0; i < tempList.size(); i++)
+					{
+						selShape.selectShape(tempList.get(i));
+					}
+				
+				list.clear();
+				list.add(selShape);
+				
+				//list.clear();
+//				
+//				for (Shape sh : list)
+//					selShape.selectShape(sh);
+				
+				repaint();
+
+			}
 
 		private class Mover implements Runnable
 			{
@@ -237,8 +262,8 @@ public class DrawPanel extends JPanel implements Observer
 								if (getHeight() > 0)
 									movY = (movY + 1) % getHeight();
 
-//								 for(Shape c : list)
-//								 c.move();
+								// for(Shape c : list)
+								// c.move();
 
 								repaint();
 							}
@@ -249,12 +274,10 @@ public class DrawPanel extends JPanel implements Observer
 		@Override
 		public void update(Observable o, Object arg)
 			{
-			//	System.out.println("update");
+				System.out.println("update");
 
 				repaint();
 
 			}
-
-
 
 	}

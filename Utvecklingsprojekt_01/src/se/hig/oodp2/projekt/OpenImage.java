@@ -1,26 +1,12 @@
-package se.hig.oopd2.projekt;
+package se.hig.oodp2.projekt;
 
 import java.io.FileInputStream;
 import java.io.ObjectInputStream;
 
 import se.hig.oodp2.shapes.GroupShape;
-import se.hig.oodp2.shapes.Shape;
 
-public  class OpenObject
+public class OpenImage
 	{
-
-		Shape shape;
-
-		private static OpenObject openObj = new OpenObject();
-		
-		
-		public OpenObject()
-			{
-			
-			}
-		public static OpenObject getInstance(){
-			return openObj;
-		}
 
 		public GroupShape deserialize(String filename)
 			{
@@ -43,8 +29,4 @@ public  class OpenObject
 				return  s;
 			}
 		
-		public Shape getShape(){
-			return shape;
-		}
-
 	}

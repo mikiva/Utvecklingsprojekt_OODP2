@@ -31,7 +31,7 @@ public class Group implements Command
 						group.selectShape(s);
 					}
 				list.add(group);
-				shapes.clear();
+				shapes.reset();
 
 			}
 

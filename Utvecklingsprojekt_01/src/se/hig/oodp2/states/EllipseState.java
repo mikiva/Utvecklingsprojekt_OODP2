@@ -16,7 +16,6 @@ public class EllipseState implements ShapeState
 	@Override
 	public Shape createShape(double x, double y)
 		{
-			// TODO Auto-generated method stub
 			return new Ellipse(x,y);
 		}
 

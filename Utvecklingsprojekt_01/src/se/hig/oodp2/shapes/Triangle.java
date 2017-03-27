@@ -4,46 +4,38 @@ import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
-import java.io.Serializable;
 
-public class Ellipse implements Shape, Serializable
+public class Triangle implements Shape
 	{
 
 		/**
 		* 
 		*/
 		private static final long serialVersionUID = 1L;
+		private boolean isVisible = true;
 		private double x;
 		private double y;
-		private double dx;
-		private double dy;
-		private double radius;
 		private double w;
 		private double h;
-		private int xmax;
-		private int ymax;
-		private Color color;
-		private boolean isVisible = true;
 		private int stroke = 1;
+		private int[] xPos = new int[3];
+		private int[] yPos = new int[3];
 
-		public Ellipse(double x, double y)
+		public Triangle(double x, double y, double w, double h)
 			{
-				this.x = x;
-				this.y = y;
-				this.color = Color.green;
 
-				this.dx = (Math.random() * (-0.5 * 10));
-				this.dy = (Math.random() * (-0.5 * 10));
-
-			}
-
-		public Ellipse(double x, double y, double w, double h)
-			{
 				this.x = x;
 				this.y = y;
 				this.w = w;
 				this.h = h;
-				this.color = Color.green;
+
+			}
+
+		public Triangle(double x, double y)
+			{
+
+				this.x = x;
+				this.y = y;
 
 			}
 
@@ -51,36 +43,35 @@ public class Ellipse implements Shape, Serializable
 		public void draw(Graphics g)
 			{
 				Graphics2D g2 = (Graphics2D) g;
-
 				g2.setStroke(new BasicStroke(stroke));
-				g2.setColor(color);
-				g2.drawOval((int) x, (int) y, (int) w, (int) h);
+
+				xPos[0] = (int) x;
+				xPos[1] = (int) (x + (w / 2));
+				xPos[2] = (int) (x + w);
+
+				yPos[0] = (int) (y + h);
+				yPos[1] = (int) (y);
+				yPos[2] = (int) (y + h);
+
+				g2.drawPolygon(xPos, yPos, 3);
 
 			}
 
 		@Override
 		public void move()
 			{
+
 			}
 
 		@Override
 		public void move(int x, int y)
 			{
-				this.x = x;
-				this.y = y;
 
 			}
 
 		@Override
 		public boolean inside(int x, int y)
 			{
-
-				if (x <= this.x + w && x >= this.x)
-					{
-						if (y <= this.y + h && y >= this.y)
-							return true;
-					}
-
 				return false;
 			}
 
@@ -95,81 +86,67 @@ public class Ellipse implements Shape, Serializable
 		@Override
 		public void setSize(int w, int h)
 			{
-				this.w = w;
-				this.h = h;
 
 			}
 
 		@Override
 		public int getWidth()
 			{
-
-				return (int) (this.w);
+				return 0;
 			}
 
 		@Override
 		public int getHeight()
 			{
-				return (int) this.h;
+				return 0;
 			}
 
 		@Override
 		public void setColor(Color c)
 			{
-				this.color = c;
+
+			}
+
+		@Override
+		public void setColor()
+			{
 
 			}
 
 		@Override
 		public int getX()
 			{
-				return (int) x;
+				return 0;
 			}
 
 		@Override
 		public int getY()
 			{
-				return (int) y;
+				return 0;
 			}
 
 		@Override
 		public void setX(double x)
 			{
-				this.x = x;
 
 			}
 
 		@Override
 		public void setY(double y)
 			{
-				this.y = y;
 
-			}
-
-		public String toString()
-			{
-				return "Ellipse " + isVisible();
 			}
 
 		@Override
 		public void toggleVisible()
 			{
-				isVisible = !isVisible;
 
 			}
 
 		@Override
 		public boolean isVisible()
 			{
-
 				return isVisible;
-			}
-
-		@Override
-		public void setColor()
-			{
-				setColor(color);
-
 			}
 
 		@Override
@@ -181,14 +158,13 @@ public class Ellipse implements Shape, Serializable
 		@Override
 		public Color getColor()
 			{
-				return this.color;
+				return null;
 			}
 
 		@Override
 		public int getStroke()
 			{
-
-				return this.stroke;
+				return 0;
 			}
 
 	}
